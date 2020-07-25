@@ -53,7 +53,7 @@ public class Kiwi : MonoBehaviour
 
     private IEnumerator Move(Vector3 v){
         isCoolingDown = true;
-        //birdAnimation.SetTrigger("move");
+        birdAnimation.SetTrigger("walk");
 
         var start = transform.position;
         var end = start + v;

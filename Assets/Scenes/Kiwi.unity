@@ -315,6 +315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f94782890b7dfe0469e78d570f1ca104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mySpriteRenderer: {fileID: 0}
   kiwiSprite: {fileID: 889586999}
   birdAnimation: {fileID: 0}
 --- !u!212 &889587001
