@@ -29,7 +29,7 @@ public class Frogger : MonoBehaviour
             StartCoroutine(Move(new Vector3(0, Mathf.Sign(vert) * 16, 0)));
         }
         else if (Mathf.Abs(horiz) > 0){
-            frogSprite.transform.rotation = Quaternion.Euler(new Vector3(0, 0, Mathf.Sign(horiz) * -90));
+            frogSprite.transform.rotation = Quaternion.Euler(new Vector3(0, 0, Mathf.Sign(horiz) * 180));
             StartCoroutine(Move(new Vector3(Mathf.Sign(horiz) * 16, 0, 0)));
         }
     }

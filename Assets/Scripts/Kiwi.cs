@@ -5,10 +5,17 @@ using UnityEngine;
 
 public class Kiwi : MonoBehaviour
 {
+    public SpriteRenderer mySpriteRenderer;
+    public GameObject kiwiSprite;
+    public Animator birdAnimation;
+
     private static readonly float COOLDOWN = 0.4f;
     private bool isCoolingDown = false;
-    //public GameObject frogSprite;
-    public Animator birdAnimation;
+    private bool facingForward = true;
+
+    private void Awake(){
+        mySpriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -27,10 +34,19 @@ public class Kiwi : MonoBehaviour
             else {
                 //frogSprite.transform.rotation = Quaternion.Euler(new Vector3(0, 0, Mathf.Sign(vert) * 180));
             }
-            StartCoroutine(Move(new Vector3(0, Mathf.Sign(vert) * 2.6f, 0)));
+            StartCoroutine(Move(new Vector3(0, Mathf.Sign(vert) *  2.6f, 0)));
         }
         else if (Mathf.Abs(horiz) > 0){
-            //frogSprite.transform.rotation = Quaternion.Euler(new Vector3(0, 0, Mathf.Sign(horiz) * -90));
+            //frogSprite.transform.rotation = Quaternion.Euler(new Vector3(0, 0, Mathf.Sign(horiz) * 180));
+            if(mySpriteRenderer != null){
+                if(horiz < 0){
+                    mySpriteRenderer.flipX = true;
+                }
+                else{
+                    mySpriteRenderer.flipX = false;
+                }
+            }
+
             StartCoroutine(Move(new Vector3(Mathf.Sign(horiz) * 3.5f, 0, 0)));
         }
     }
