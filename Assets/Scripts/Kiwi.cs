@@ -7,14 +7,20 @@ public class Kiwi : MonoBehaviour
 {
     public SpriteRenderer mySpriteRenderer;
     public GameObject kiwiSprite;
-    public Animator birdAnimation;
+    public Animator anim;
 
-    private static readonly float COOLDOWN = 0.4f;
+    int walkHash = Animator.StringToHash("walk");
+
+    private static readonly float COOLDOWN = 0.6f;
     private bool isCoolingDown = false;
     private bool facingForward = true;
 
     private void Awake(){
         mySpriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void Start(){
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -42,7 +48,7 @@ public class Kiwi : MonoBehaviour
                 if(horiz < 0){
                     mySpriteRenderer.flipX = true;
                 }
-                else{
+                else {
                     mySpriteRenderer.flipX = false;
                 }
             }
@@ -53,7 +59,7 @@ public class Kiwi : MonoBehaviour
 
     private IEnumerator Move(Vector3 v){
         isCoolingDown = true;
-        birdAnimation.SetTrigger("walk");
+        anim.SetTrigger(walkHash);
 
         var start = transform.position;
         var end = start + v;
