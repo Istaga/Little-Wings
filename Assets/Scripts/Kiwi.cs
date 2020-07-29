@@ -10,6 +10,7 @@ public class Kiwi : MonoBehaviour
     public Animator anim;
 
     int walkHash = Animator.StringToHash("walk");
+    int eggHash = Animator.StringToHash("egg");
 
     private static readonly float COOLDOWN = 0.6f;
     private bool isCoolingDown = false;
@@ -28,6 +29,10 @@ public class Kiwi : MonoBehaviour
     {
         if( isCoolingDown ){
             return;
+        }
+
+        if (Input.GetKeyUp("x")){
+            anim.SetTrigger(eggHash);
         }
 
         var horiz = Input.GetAxis("Horizontal");
