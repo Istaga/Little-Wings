@@ -8,9 +8,13 @@ public class Kiwi : MonoBehaviour
     public SpriteRenderer mySpriteRenderer;
     public GameObject kiwiSprite;
     public Animator anim;
+    AnimatorStateInfo state;
 
     int walkHash = Animator.StringToHash("walk");
     int eggHash = Animator.StringToHash("egg");
+    int jumpHash = Animator.StringToHash("jump");
+    int deathHash = Animator.StringToHash("dead");
+    int stillStateHash = Animator.StringToHash("Base Layer.KiwiStill");
 
     private static readonly float COOLDOWN = 0.6f;
     private bool isCoolingDown = false;
@@ -22,17 +26,31 @@ public class Kiwi : MonoBehaviour
 
     private void Start(){
         anim = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if( isCoolingDown ){
+        state = anim.GetCurrentAnimatorStateInfo(0);
+
+        if( isCoolingDown || state.nameHash != stillStateHash ){
             return;
         }
 
-        if (Input.GetKeyUp("x")){
+        if( Input.GetKeyUp("x") ){
             anim.SetTrigger(eggHash);
+            return;
+        }
+
+        if( Input.GetKeyUp("j") ){
+            anim.SetTrigger(jumpHash);
+            return;
+        }
+
+        if( Input.GetKeyUp("b") ){
+            anim.SetTrigger(deathHash);
+            return;
         }
 
         var horiz = Input.GetAxis("Horizontal");
