@@ -10,11 +10,11 @@ public class Kiwi : MonoBehaviour
     public Animator anim;
     AnimatorStateInfo state;
 
-    int walkHash = Animator.StringToHash("walk");
-    int eggHash = Animator.StringToHash("egg");
-    int jumpHash = Animator.StringToHash("jump");
-    int deathHash = Animator.StringToHash("dead");
-    int stillStateHash = Animator.StringToHash("Base Layer.KiwiStill");
+    int walkHash = Animator.StringToHash("Walk");
+    int eggHash = Animator.StringToHash("Egg");
+    int jumpHash = Animator.StringToHash("Jump");
+    int deathHash = Animator.StringToHash("Dead");
+    int stillStateHash = Animator.StringToHash("Base Layer.Still");
 
     private static readonly float COOLDOWN = 0.6f;
     private bool isCoolingDown = false;
@@ -26,7 +26,6 @@ public class Kiwi : MonoBehaviour
 
     private void Start(){
         anim = GetComponent<Animator>();
-
     }
 
     // Update is called once per frame
@@ -84,7 +83,7 @@ public class Kiwi : MonoBehaviour
         isCoolingDown = true;
         anim.SetTrigger(walkHash);
 
-        var start = transform.position;
+        var start = kiwiSprite.transform.position;
         var end = start + v;
         var time = 0f;
         while(time < 1f){
