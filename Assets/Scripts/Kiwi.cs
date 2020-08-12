@@ -16,7 +16,9 @@ public class Kiwi : MonoBehaviour
     int deathHash = Animator.StringToHash("Dead");
     int stillStateHash = Animator.StringToHash("Base Layer.Still");
 
+    private static float GLOBAL_TIME;
     private static readonly float COOLDOWN = 0.6f;
+    private static readonly float ACTION_COOLDOWN = 1f;
     private bool isCoolingDown = false;
     private bool facingForward = true;
 
@@ -26,12 +28,17 @@ public class Kiwi : MonoBehaviour
 
     private void Start(){
         anim = GetComponent<Animator>();
+        GLOBAL_TIME = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
         state = anim.GetCurrentAnimatorStateInfo(0);
+        GLOBAL_TIME += Time.deltaTime;
+        if ( GLOBAL_TIME >= ACTION_COOLDOWN ){
+            //return;
+        }
 
         if( isCoolingDown || state.nameHash != stillStateHash ){
             return;
@@ -42,8 +49,11 @@ public class Kiwi : MonoBehaviour
             return;
         }
 
-        if( Input.GetKeyUp("j") ){
-            anim.SetTrigger(jumpHash);
+        var horiz = Input.GetAxis("Horizontal");
+        var vert = Input.GetAxis("Vertical");
+
+        if( facingForward && Input.GetKeyUp("j") ){
+            StartCoroutine(Jump());
             return;
         }
 
@@ -51,9 +61,6 @@ public class Kiwi : MonoBehaviour
             anim.SetTrigger(deathHash);
             return;
         }
-
-        var horiz = Input.GetAxis("Horizontal");
-        var vert = Input.GetAxis("Vertical");
 
         if (Mathf.Abs(vert) > 0){
             if(vert > 0){
@@ -77,6 +84,43 @@ public class Kiwi : MonoBehaviour
 
             StartCoroutine(Move(new Vector3(Mathf.Sign(horiz) * 3.5f, 0, 0)));
         }
+    }
+
+    private IEnumerator Jump(){
+
+        isCoolingDown = true;
+        anim.SetTrigger(jumpHash);
+
+        Vector3 v = new Vector3(7f, 0, 0);
+        Vector3 h = new Vector3(3.5f, 3.5f, 0);
+        Vector3 down = new Vector3(3.5f, -3.5f, 0);
+
+        // Rotation occurs in the z component of transform.rotation
+
+        // First determine the halfway point
+        // Note: We're always jumping forward
+        // lerp to halfway, lerp to end
+
+        var current = kiwiSprite.transform.position;
+        var halfpoint = current + h;
+        var time = 0f;
+
+        while( time < 1f ){
+            transform.position = Vector3.Lerp(current, halfpoint, time);
+            time = time + Time.deltaTime / COOLDOWN;
+            yield return null;
+        }
+
+        current = kiwiSprite.transform.position;
+        time = 0f;
+        Vector3 end = halfpoint + down;
+
+        while( time < 1f ){
+            transform.position = Vector3.Lerp(current, end, time);
+            time = time + Time.deltaTime / COOLDOWN;
+            yield return null;
+        }
+        isCoolingDown = false;
     }
 
     private IEnumerator Move(Vector3 v){
