@@ -17,7 +17,7 @@ public class Kiwi : MonoBehaviour
     int stillStateHash = Animator.StringToHash("Base Layer.Still");
 
     private static float GLOBAL_TIME;
-    private static readonly float COOLDOWN = 0.6f;
+    private static readonly float COOLDOWN = 0.5f;
     private static readonly float ACTION_COOLDOWN = 1f;
     private bool isCoolingDown = false;
     private bool facingForward = true;
@@ -92,8 +92,8 @@ public class Kiwi : MonoBehaviour
         anim.SetTrigger(jumpHash);
 
         Vector3 v = new Vector3(7f, 0, 0);
-        Vector3 h = new Vector3(3.5f, 3.5f, 0);
-        Vector3 down = new Vector3(3.5f, -3.5f, 0);
+        Vector3 h = new Vector3(3.5f, 2.4f, 0);
+        Vector3 down = new Vector3(3.5f, -2.4f, 0);
 
         // Rotation occurs in the z component of transform.rotation
 
@@ -105,7 +105,7 @@ public class Kiwi : MonoBehaviour
         var halfpoint = current + h;
         var time = 0f;
 
-        while( time < 1f ){
+        while( time < 1.1f ){
             transform.position = Vector3.Lerp(current, halfpoint, time);
             time = time + Time.deltaTime / COOLDOWN;
             yield return null;
@@ -115,7 +115,7 @@ public class Kiwi : MonoBehaviour
         time = 0f;
         Vector3 end = halfpoint + down;
 
-        while( time < 1f ){
+        while( time < 1.1f ){
             transform.position = Vector3.Lerp(current, end, time);
             time = time + Time.deltaTime / COOLDOWN;
             yield return null;
