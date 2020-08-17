@@ -163,12 +163,21 @@ public class Kiwi : MonoBehaviour
         var start = kiwiSprite.transform.position;
         var end = start + v;
         var time = 0f;
+        anim.speed = 2.5f;
 
         while(time < 1f){
             transform.position = Vector3.Lerp(start, end, time);
             time = time + Time.deltaTime / COOLDOWN;
+            if(time >= 0.1f){
+                anim.speed = 1f;
+            }
             yield return null;
         }
+
+        // there's a slight delay before the walk starts, maybe we can speed it up very briefly?
+        // up to t=0.1, then normal speed?
+        // seems to be ok now
+
         transform.position = end;
         isCoolingDown = false;
     }
