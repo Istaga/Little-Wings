@@ -73,6 +73,8 @@ public class Kiwi : MonoBehaviour
         else if (Mathf.Abs(horiz) > 0){
             //frogSprite.transform.rotation = Quaternion.Euler(new Vector3(0, 0, Mathf.Sign(horiz) * 180));
             if(mySpriteRenderer != null){
+
+                // TODO : IF FACING LEFT THEN TURN RIGHT INSTEAD OF MOVING RIGHT
                 if(horiz < 0){
                     mySpriteRenderer.flipX = true;
                 }
@@ -83,6 +85,10 @@ public class Kiwi : MonoBehaviour
 
             StartCoroutine(Move(new Vector3(Mathf.Sign(horiz) * 3.5f, 0, 0)));
         }
+    }
+
+    private IEnumerator EggToss(){
+        return null;
     }
 
     private IEnumerator Jump(){
@@ -137,7 +143,8 @@ public class Kiwi : MonoBehaviour
             yield return null;
         }
 
-        current = kiwiSprite.transform.position;
+        //current = kiwiSprite.transform.position;
+        current =  halfpoint;
         time = 0f;
         Vector3 end = halfpoint + down;
 
@@ -152,7 +159,7 @@ public class Kiwi : MonoBehaviour
             yield return null;
         }
 
-        anim.speed = 1f; // Reset
+        anim.speed = 1f; // Reset to normal
 
         isCoolingDown = false;
     }
