@@ -1,5 +1,4 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -92,8 +91,8 @@ public class Kiwi : MonoBehaviour
         anim.SetTrigger(jumpHash);
 
         Vector3 v = new Vector3(7f, 0, 0);
-        Vector3 h = new Vector3(3.5f, 2.4f, 0);
-        Vector3 down = new Vector3(3.5f, -2.4f, 0);
+        Vector3 h = new Vector3(4f, 2.4f, 0);
+        Vector3 down = new Vector3(3f, -2.4f, 0);
 
         // Rotation occurs in the z component of transform.rotation
 
@@ -105,9 +104,36 @@ public class Kiwi : MonoBehaviour
         var halfpoint = current + h;
         var time = 0f;
 
-        while( time < 1.1f ){
+        // Adding a slight delay before movement, since the kiwi crouches before "flying"
+        // The jump animation is 13 frames, the first/last 4 are spent standing still crouching
+
+        // We want time to pass faster while crouching, slowing while jumping
+        //anim.speed = 25f; // Crouch fast
+        // We want to play
+        anim.speed = 10f;
+        while( time < 0.05f ){
+            time = time + Time.deltaTime;
+            yield return null;
+        }
+
+        time = 0f;
+
+        anim.speed = 0.15f; // Fly slower
+
+
+        while( time < 1f ){
             transform.position = Vector3.Lerp(current, halfpoint, time);
             time = time + Time.deltaTime / COOLDOWN;
+
+            // change anim speed to be slower at the top and ending half
+            if (time >= 0.3f && time < 0.33f){
+                anim.speed = 0.1f;
+            }
+            if (time >= 0.7f && time < 0.72f){
+                anim.speed = 0.1f;
+            }
+            
+
             yield return null;
         }
 
@@ -115,14 +141,21 @@ public class Kiwi : MonoBehaviour
         time = 0f;
         Vector3 end = halfpoint + down;
 
-        while( time < 1.1f ){
+        anim.speed = 0.3f; // Land faster
+
+        while( time < 1f ){
             transform.position = Vector3.Lerp(current, end, time);
             time = time + Time.deltaTime / COOLDOWN;
+            if (time >= 0.5f && time <= 0.55f){
+                anim.speed = 1.5f;
+            }
             yield return null;
         }
+
+        anim.speed = 1f; // Reset
+
         isCoolingDown = false;
     }
-
     private IEnumerator Move(Vector3 v){
         isCoolingDown = true;
         anim.SetTrigger(walkHash);
@@ -130,6 +163,7 @@ public class Kiwi : MonoBehaviour
         var start = kiwiSprite.transform.position;
         var end = start + v;
         var time = 0f;
+
         while(time < 1f){
             transform.position = Vector3.Lerp(start, end, time);
             time = time + Time.deltaTime / COOLDOWN;
