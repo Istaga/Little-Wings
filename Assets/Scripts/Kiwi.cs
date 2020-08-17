@@ -107,6 +107,7 @@ public class Kiwi : MonoBehaviour
         // lerp to halfway, lerp to end
 
         var current = kiwiSprite.transform.position;
+        var start = current;
         var halfpoint = current + h;
         var time = 0f;
 
@@ -144,7 +145,7 @@ public class Kiwi : MonoBehaviour
         }
 
         //current = kiwiSprite.transform.position;
-        current =  halfpoint;
+        current = halfpoint;
         time = 0f;
         Vector3 end = halfpoint + down;
 
@@ -158,11 +159,12 @@ public class Kiwi : MonoBehaviour
             }
             yield return null;
         }
-
+        transform.position = end; // Ensures consistent movement
         anim.speed = 1f; // Reset to normal
 
         isCoolingDown = false;
     }
+
     private IEnumerator Move(Vector3 v){
         isCoolingDown = true;
         anim.SetTrigger(walkHash);
