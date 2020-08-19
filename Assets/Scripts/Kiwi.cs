@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Kiwi : MonoBehaviour
 {
+    [SerializeField] private Transform eggPF;
+
     public SpriteRenderer mySpriteRenderer;
     public GameObject kiwiSprite;
     public Animator anim;
@@ -45,6 +47,7 @@ public class Kiwi : MonoBehaviour
 
         if( Input.GetKeyUp("x") ){
             anim.SetTrigger(eggHash);
+            EggToss();
             return;
         }
 
@@ -87,10 +90,21 @@ public class Kiwi : MonoBehaviour
         }
     }
 
-    private IEnumerator EggToss(){
-        return null;
+    private void EggToss(){
+        // calculate kiwi versus egg position
+        Vector3 kiwiPos = transform.position;
+        Vector3 beakPos = kiwiPos += new Vector3(3.4f, 0.72f, 0);
+        Debug.Log(beakPos);
+        Transform eggTransform = Instantiate(eggPF, beakPos, Quaternion.identity);
+        Debug.Log(eggTransform.position);
+        Vector3 shootDir = (kiwiPos - beakPos).normalized;
+        eggTransform.GetComponent<Egg>().Setup(shootDir);
+
+        return;
     }
 
+
+    // TODO: Add slight rotation during jump
     private IEnumerator Jump(){
 
         isCoolingDown = true;
