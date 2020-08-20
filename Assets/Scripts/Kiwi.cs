@@ -95,12 +95,15 @@ public class Kiwi : MonoBehaviour
         // calculate kiwi versus egg position
         Vector3 kiwiPos = kiwiSprite.transform.position;
         Vector3 beakPos = kiwiPos + new Vector3(3.4f, 0.72f, 0);
+
         Debug.Log("Kiwi pos is " + kiwiPos);
          Debug.Log("(not used) Beak pos is " + beakPos);
+
         Transform eggTransform = Instantiate(eggPF, kiwiPos, Quaternion.identity);
-        Debug.Log(eggTransform.position);
+        
         Vector3 shootDir = (kiwiPos).normalized;
-        eggTransform.GetComponent<Egg>().Setup(shootDir);
+        Debug.Log("shootDir  is " + shootDir);
+        eggTransform.GetComponent<Egg>().Setup(mySpriteRenderer.flipX);
 
         return;
     }

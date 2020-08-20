@@ -514,5 +514,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: base_background
       objectReference: {fileID: 0}
+    - target: {fileID: 8672580101160808599, guid: ece16b11839eee70b8e3bfab490a2753,
+        type: 3}
+      propertyPath: eggPF
+      value: 
+      objectReference: {fileID: 4069586357544284741, guid: 0b8ca6000fce9b6baa76b5e74980b27a,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ece16b11839eee70b8e3bfab490a2753, type: 3}

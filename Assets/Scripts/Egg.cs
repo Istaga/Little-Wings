@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class Egg : MonoBehaviour
 {
-    private float dist = 0;
+    private float timeAlive = 0f;
+    private boolean forward;
     private Vector3 shootDir;
-    public void Setup(Vector3 shootDir){
-        this.shootDir = shootDir;
-        Debug.Log("egg class pos is " + transform.position);
+    private float ms = 10f;
+
+    public void Setup(boolean dir){
+        this.forward = dir
     }
 
     private void Update(){
-        float ms = 10f;
-        //transform.position += shootDir * ms * Time.deltaTime;
+        timeFlying += Time.deltaTime;
+        if( timeFlying > 3f ){
+            Destroy(this);
+        }
+
+        Vector3 pew = (shootDir * ms * Time.deltaTime);
+        transform.position += pew;
+        Debug.Log("additional vel is " + pew);
     }
 }
