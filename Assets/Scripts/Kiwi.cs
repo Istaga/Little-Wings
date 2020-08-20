@@ -36,6 +36,8 @@ public class Kiwi : MonoBehaviour
     void Update()
     {
         state = anim.GetCurrentAnimatorStateInfo(0);
+
+
         GLOBAL_TIME += Time.deltaTime;
         if ( GLOBAL_TIME >= ACTION_COOLDOWN ){
             //return;
@@ -47,7 +49,6 @@ public class Kiwi : MonoBehaviour
 
         if( Input.GetKeyUp("x") ){
             anim.SetTrigger(eggHash);
-            EggToss();
             return;
         }
 
@@ -92,12 +93,13 @@ public class Kiwi : MonoBehaviour
 
     private void EggToss(){
         // calculate kiwi versus egg position
-        Vector3 kiwiPos = transform.position;
-        Vector3 beakPos = kiwiPos += new Vector3(3.4f, 0.72f, 0);
-        Debug.Log(beakPos);
-        Transform eggTransform = Instantiate(eggPF, beakPos, Quaternion.identity);
+        Vector3 kiwiPos = kiwiSprite.transform.position;
+        Vector3 beakPos = kiwiPos + new Vector3(3.4f, 0.72f, 0);
+        Debug.Log("Kiwi pos is " + kiwiPos);
+         Debug.Log("(not used) Beak pos is " + beakPos);
+        Transform eggTransform = Instantiate(eggPF, kiwiPos, Quaternion.identity);
         Debug.Log(eggTransform.position);
-        Vector3 shootDir = (kiwiPos - beakPos).normalized;
+        Vector3 shootDir = (kiwiPos).normalized;
         eggTransform.GetComponent<Egg>().Setup(shootDir);
 
         return;

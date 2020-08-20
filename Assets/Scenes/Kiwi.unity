@@ -433,6 +433,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Kiwi
       objectReference: {fileID: 0}
+    - target: {fileID: 2262370480302250117, guid: 1439b5967e7fe98899112d631823343f,
+        type: 3}
+      propertyPath: eggPF
+      value: 
+      objectReference: {fileID: 4069586357544284741, guid: 0b8ca6000fce9b6baa76b5e74980b27a,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1439b5967e7fe98899112d631823343f, type: 3}
 --- !u!1001 &2496895032388816566

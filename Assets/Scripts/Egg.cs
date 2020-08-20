@@ -8,10 +8,11 @@ public class Egg : MonoBehaviour
     private Vector3 shootDir;
     public void Setup(Vector3 shootDir){
         this.shootDir = shootDir;
+        Debug.Log("egg class pos is " + transform.position);
     }
 
     private void Update(){
         float ms = 10f;
-        transform.position += shootDir * ms * Time.deltaTime;
+        //transform.position += shootDir * ms * Time.deltaTime;
     }
 }
