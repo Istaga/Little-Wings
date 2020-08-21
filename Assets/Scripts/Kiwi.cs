@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Kiwi : MonoBehaviour
 {
-    [SerializeField] private Transform eggPF;
+    [SerializeField] private Transform Egg;
 
     public SpriteRenderer mySpriteRenderer;
     public GameObject kiwiSprite;
@@ -94,18 +94,13 @@ public class Kiwi : MonoBehaviour
     private void EggToss(){
         // calculate kiwi versus egg position
         Vector3 kiwiPos = kiwiSprite.transform.position;
-        Vector3 beakPos = kiwiPos + new Vector3(3.4f, 0.72f, 0);
+        Vector3 beakPos = kiwiPos + new Vector3(1.53f, 0.5f, 0);
 
         Debug.Log("Kiwi pos is " + kiwiPos);
-         Debug.Log("(not used) Beak pos is " + beakPos);
+        Debug.Log("Beak pos is " + beakPos);
 
-        Transform eggTransform = Instantiate(eggPF, kiwiPos, Quaternion.identity);
-        
-        Vector3 shootDir = (kiwiPos).normalized;
-        Debug.Log("shootDir  is " + shootDir);
+        Transform eggTransform = Instantiate(Egg, beakPos, Quaternion.Euler(0, 0, 75));
         eggTransform.GetComponent<Egg>().Setup(mySpriteRenderer.flipX);
-
-        return;
     }
 
 

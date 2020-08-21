@@ -4,23 +4,20 @@ using UnityEngine;
 
 public class Egg : MonoBehaviour
 {
-    private float timeAlive = 0f;
-    private boolean forward;
-    private Vector3 shootDir;
-    private float ms = 10f;
+    private bool shootDir;
+    private float x = 75;
 
-    public void Setup(boolean dir){
-        this.forward = dir
+    public void Setup(bool dir){
+        this.shootDir = dir;
+        Destroy(gameObject, 0.7f);
+        transform.position += (new Vector3(1f, 0, 0));
     }
 
     private void Update(){
-        timeFlying += Time.deltaTime;
-        if( timeFlying > 3f ){
-            Destroy(this);
-        }
 
-        Vector3 pew = (shootDir * ms * Time.deltaTime);
-        transform.position += pew;
-        Debug.Log("additional vel is " + pew);
+        transform.position += (new Vector3(20f, -1f, 0) * Time.deltaTime);
+        // decrease z over time
+        x -= Time.deltaTime * 300;
+        transform.rotation = Quaternion.Euler(0, 0, x);
     }
 }
