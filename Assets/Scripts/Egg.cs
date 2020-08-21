@@ -4,20 +4,31 @@ using UnityEngine;
 
 public class Egg : MonoBehaviour
 {
-    private bool shootDir;
+    private bool fwd;
     private float x = 75;
+    private float time = 0f;
 
     public void Setup(bool dir){
-        this.shootDir = dir;
+        this.fwd = dir;
         Destroy(gameObject, 0.7f);
-        transform.position += (new Vector3(1f, 0, 0));
     }
 
     private void Update(){
 
         transform.position += (new Vector3(20f, -1f, 0) * Time.deltaTime);
-        // decrease z over time
-        x -= Time.deltaTime * 300;
+        
+        // rotate faster at the start, it looks more natural
+        if(time < 0.1f){
+            x-= Time.deltaTime * 600;
+        }
+        else if(time < 0.3){
+            x-= Time.deltaTime * 400;
+        }
+        else {
+            x-= Time.deltaTime * 300;
+        }
+
         transform.rotation = Quaternion.Euler(0, 0, x);
+        time += Time.deltaTime;
     }
 }
