@@ -14,18 +14,18 @@ public class Egg : MonoBehaviour
     }
 
     private void Update(){
-
-        transform.position += (new Vector3(20f, -1f, 0) * Time.deltaTime);
-        
         // rotate faster at the start, it looks more natural
         if(time < 0.1f){
             x-= Time.deltaTime * 600;
+            transform.position += (new Vector3(20f, 3f, 0) * Time.deltaTime);
         }
         else if(time < 0.3){
             x-= Time.deltaTime * 400;
+            transform.position += (new Vector3(20f, 2f, 0) * Time.deltaTime);
         }
         else {
             x-= Time.deltaTime * 300;
+            transform.position += (new Vector3(20f, -1f, 0) * Time.deltaTime);
         }
 
         transform.rotation = Quaternion.Euler(0, 0, x);
