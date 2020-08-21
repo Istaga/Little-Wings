@@ -14,6 +14,7 @@ public class Egg : MonoBehaviour
     }
 
     private void Update(){
+
         // rotate faster at the start, it looks more natural
         if(time < 0.1f){
             x-= Time.deltaTime * 600;

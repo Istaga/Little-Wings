@@ -6,6 +6,7 @@ public class Kiwi : MonoBehaviour
 {
     [SerializeField] private Transform Egg;
 
+    private Rigidbody2D rb;
     public SpriteRenderer mySpriteRenderer;
     public GameObject kiwiSprite;
     public Animator anim;
@@ -25,6 +26,7 @@ public class Kiwi : MonoBehaviour
 
     private void Awake(){
         mySpriteRenderer = GetComponent<SpriteRenderer>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
     private void Start(){
@@ -57,11 +59,6 @@ public class Kiwi : MonoBehaviour
 
         if( facingForward && Input.GetKeyUp("j") ){
             StartCoroutine(Jump());
-            return;
-        }
-
-        if( Input.GetKeyUp("b") ){
-            anim.SetTrigger(deathHash);
             return;
         }
 
@@ -204,4 +201,21 @@ public class Kiwi : MonoBehaviour
         transform.position = end;
         isCoolingDown = false;
     }
+
+    void OnTriggerEnter2D(Collider2D other){
+        if(other.tag == "enemy"){
+            anim.SetTrigger(deathHash);
+            RestInPieces();
+        }
+        else if(other.tag == "cherry"){
+            // end level hereaaa
+        }
+    }
+
+    // Add fade-away
+    private IEnumerator RestInPieces(){
+        Destroy(gameObject);
+        yield return null;
+    }
+
 }
