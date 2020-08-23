@@ -194,10 +194,6 @@ public class Kiwi : MonoBehaviour
             yield return null;
         }
 
-        // there's a slight delay before the walk starts, maybe we can speed it up very briefly?
-        // up to t=0.1, then normal speed?
-        // seems to be ok now
-
         transform.position = end;
         isCoolingDown = false;
     }
@@ -208,7 +204,7 @@ public class Kiwi : MonoBehaviour
             RestInPieces();
         }
         else if(other.tag == "cherry"){
-            // end level hereaaa
+            // end level here
         }
     }
 
