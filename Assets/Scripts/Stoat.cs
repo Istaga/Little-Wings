@@ -77,7 +77,7 @@ public class Stoat : MonoBehaviour
         anim.SetBool("angry", true);
         angry = true;
         float piwiX = piwi.transform.position.x;
-        Vector3 target = piwi.transform.position;
+        Vector3 target = new Vector3(piwi.transform.position.x, transform.position.y, transform.position.z);
 
         var start = transform.position;
         var end = target;
@@ -141,7 +141,25 @@ public class Stoat : MonoBehaviour
             }
             yield return null;
         }
-
+        transform.position = end;
+        anim.SetBool("angry", false);
+        mySpriteRenderer.flipX = true;
+        // walk back slowly
+        time = 0f;
+        mul = 2f;
+        while(time < 1f){
+            transform.position = Vector3.Lerp(end, start, time);
+            
+            if(time > 0.8f){
+                time += Time.deltaTime / mul;
+            }
+            else {
+                time += Time.deltaTime / (mul/2f);
+            }
+            yield return null;
+        }
+        anim.SetBool("coolingOff", false);
+        mySpriteRenderer.flipX = false;
         isCoolingDown = false;
     }
 
