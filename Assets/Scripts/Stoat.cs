@@ -83,7 +83,7 @@ public class Stoat : MonoBehaviour
         var end = target;
         var time = 0f;
         float mul = 7f; // changes speed
-        float animMul = 2f;
+        float animMul = 7f;
         anim.SetFloat("speedMul", animMul);
         anim.speed = 1f;
 
@@ -98,43 +98,47 @@ public class Stoat : MonoBehaviour
                 time += Time.deltaTime / mul;
                 Debug.Log("Stage ranapden");
                 mul -= 0.01f;
+                animMul = 2f;
             }
             else if (time >= 0.02f && time < 0.1f){
-                animMul = 0.3f;
+                animMul = 0.5f;
                 time += Time.deltaTime / mul;
                 Debug.Log("Stage -1");
                 mul -= 0.01f;
             }
             else if (time >= 0.1f && time < 0.3f){
-                animMul = 0.44f;
+                animMul = 0.6f;
                 time += Time.deltaTime / mul;
                 Debug.Log("Stage 0");
-                mul -= 0.021f;
+                mul -= 0.022f;
             }
             else if (time >= 0.3f && time < 0.33f){
-                animMul = 0.5f;
+                animMul = 0.65f;
                 time += Time.deltaTime / mul;
                 Debug.Log("Stage 1");
-                mul -= 0.03f;
+                mul -= 0.033f;
             }
             else if (time >= 0.33f && time < 0.7f){
-                animMul = 0.7f;
+                animMul = 0.75f;
                 time += Time.deltaTime / mul;
                 Debug.Log("Stage 2");
-                mul -= 0.0056f;
+                mul -= 0.022f;
             }
             else if (time >= 0.7f && time < 0.72f){
                 animMul = 0.9f;
                 time += Time.deltaTime / mul;
                 Debug.Log("Stage 3");
-                mul -= 0.006f;
+                mul -= 0.005f;
             }
             else if (time >= 0.72f) {
-                animMul = 1f;
+                animMul = 1.2f;
                 time += Time.deltaTime / mul;
                 Debug.Log("Stage 4");
             }
             anim.SetFloat("speedMul", animMul);
+            if(!angry){
+                yield break;
+            }
             yield return null;
         }
 
