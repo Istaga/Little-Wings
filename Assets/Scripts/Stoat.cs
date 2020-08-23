@@ -97,7 +97,7 @@ public class Stoat : MonoBehaviour
             if (time < 0.02f){
                 time += Time.deltaTime / mul;
                 Debug.Log("Stage ranapden");
-                mul -= 0.01f;
+                mul -= 0.03f;
                 animMul = 2f;
             }
             else if (time >= 0.02f && time < 0.1f){
@@ -143,10 +143,11 @@ public class Stoat : MonoBehaviour
         }
         transform.position = end;
         anim.SetBool("angry", false);
+        anim.SetBool("coolingOff", true);
         mySpriteRenderer.flipX = true;
         // walk back slowly
         time = 0f;
-        mul = 2f;
+        mul = 3f;
         while(time < 1f){
             transform.position = Vector3.Lerp(end, start, time);
             
@@ -160,6 +161,7 @@ public class Stoat : MonoBehaviour
         }
         anim.SetBool("coolingOff", false);
         mySpriteRenderer.flipX = false;
+        angry = false;
         isCoolingDown = false;
     }
 
