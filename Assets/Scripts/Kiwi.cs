@@ -102,7 +102,7 @@ public class Kiwi : MonoBehaviour
 
 
     // TODO: Add slight rotation during jump
-    private IEnumerator Jump(){
+    public IEnumerator Jump(){
 
         isCoolingDown = true;
         anim.SetTrigger(jumpHash);
@@ -213,5 +213,4 @@ public class Kiwi : MonoBehaviour
         Destroy(gameObject);
         yield return null;
     }
-
 }
