@@ -23,6 +23,8 @@ public class Kiwi : MonoBehaviour
     private static readonly float ACTION_COOLDOWN = 1f;
     private bool isCoolingDown = false;
     private bool facingForward = true;
+    private bool grounded;
+    private bool canMove;
 
     private void Awake(){
         mySpriteRenderer = GetComponent<SpriteRenderer>();
@@ -30,6 +32,8 @@ public class Kiwi : MonoBehaviour
     }
 
     private void Start(){
+        grounded = true;
+        canMove = true;
         anim = GetComponent<Animator>();
         GLOBAL_TIME = 0f;
     }
@@ -39,14 +43,23 @@ public class Kiwi : MonoBehaviour
     {
         state = anim.GetCurrentAnimatorStateInfo(0);
 
-
-        GLOBAL_TIME += Time.deltaTime;
-        if ( GLOBAL_TIME >= ACTION_COOLDOWN ){
-            //return;
+        if( !canMove ){
+            return;
         }
 
+
+        //GLOBAL_TIME += Time.deltaTime;
+        // if ( GLOBAL_TIME >= ACTION_COOLDOWN ){
+        //     //return;
+        // }
+
         if( isCoolingDown || state.nameHash != stillStateHash ){
+            Debug.Log(state.nameHash);
             return;
+        }
+
+        if( grounded ){
+            checkHazards();
         }
 
         if( Input.GetKeyUp("x") ){
@@ -89,6 +102,7 @@ public class Kiwi : MonoBehaviour
     }
 
     private void EggToss(){
+        canMove = false;
         // calculate kiwi versus egg position
         Vector3 kiwiPos = kiwiSprite.transform.position;
         Vector3 beakPos = kiwiPos + new Vector3(2.53f, 0.5f, 0);
@@ -98,13 +112,15 @@ public class Kiwi : MonoBehaviour
 
         Transform eggTransform = Instantiate(Egg, beakPos, Quaternion.Euler(0, 0, 75));
         eggTransform.GetComponent<Egg>().Setup(mySpriteRenderer.flipX);
+        canMove = true;
     }
 
 
     // TODO: Add slight rotation during jump
     public IEnumerator Jump(){
-
+        canMove = false;
         isCoolingDown = true;
+        grounded = false;
         anim.SetTrigger(jumpHash);
 
         Vector3 v = new Vector3(7f, 0, 0);
@@ -172,11 +188,13 @@ public class Kiwi : MonoBehaviour
         }
         transform.position = end; // Ensures consistent movement
         anim.speed = 1f; // Reset to normal
-
+        grounded = true;
+        canMove = true;
         isCoolingDown = false;
     }
 
     private IEnumerator Move(Vector3 v){
+        canMove = false;
         isCoolingDown = true;
         anim.SetTrigger(walkHash);
 
@@ -195,16 +213,27 @@ public class Kiwi : MonoBehaviour
         }
 
         transform.position = end;
+        canMove = true;
         isCoolingDown = false;
     }
 
     void OnTriggerEnter2D(Collider2D other){
-        if(other.tag == "enemy"){
+        Debug.Log("entered ontrigger2d");
+        if( other.tag == "enemy" | (grounded && other.tag == "hole") ){
+            canMove = false;
             anim.SetTrigger(deathHash);
             RestInPieces();
         }
-        else if(other.tag == "cherry"){
+        else if( other.tag == "cherry" ){
             // end level here
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D other){
+        if( other.tag == "enemy" | (grounded && other.tag == "hole") ){
+            canMove = false;
+            anim.SetTrigger(deathHash);
+            RestInPieces();
         }
     }
 
@@ -212,5 +241,9 @@ public class Kiwi : MonoBehaviour
     private IEnumerator RestInPieces(){
         Destroy(gameObject);
         yield return null;
+    }
+
+    private void checkHazards(){
+        Debug.Log("entered check hazards");
     }
 }
