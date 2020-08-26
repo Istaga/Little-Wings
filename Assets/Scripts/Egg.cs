@@ -10,7 +10,7 @@ public class Egg : MonoBehaviour
 
     public void Setup(bool dir){
         this.fwd = dir;
-        Destroy(gameObject, 0.7f);
+        Destroy(gameObject, 0.5f);
     }
 
     private void Update(){
@@ -18,15 +18,15 @@ public class Egg : MonoBehaviour
         // rotate faster at the start, it looks more natural
         if(time < 0.1f){
             x-= Time.deltaTime * 600;
-            transform.position += (new Vector3(20f, 3f, 0) * Time.deltaTime);
+            transform.position += (new Vector3(15f, 2.8f, 0) * Time.deltaTime);
         }
         else if(time < 0.3){
             x-= Time.deltaTime * 400;
-            transform.position += (new Vector3(20f, 2f, 0) * Time.deltaTime);
+            transform.position += (new Vector3(15f, 2f, 0) * Time.deltaTime);
         }
         else {
             x-= Time.deltaTime * 300;
-            transform.position += (new Vector3(20f, -1f, 0) * Time.deltaTime);
+            transform.position += (new Vector3(15f, -1f, 0) * Time.deltaTime);
         }
 
         transform.rotation = Quaternion.Euler(0, 0, x);

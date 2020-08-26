@@ -21,6 +21,7 @@ public class Kiwi : MonoBehaviour
     private static float GLOBAL_TIME;
     private static readonly float COOLDOWN = 0.5f;
     private static readonly float ACTION_COOLDOWN = 1f;
+    private float invisFade = 0f;
     private bool isCoolingDown = false;
     private bool facingForward = true;
     private bool grounded;
@@ -232,8 +233,8 @@ public class Kiwi : MonoBehaviour
             anim.SetTrigger(deathHash);
             RestInPieces();
         }
-        else if( other.tag == "cherry" ){
-            // end level here
+        else if( other.tag == "Finish" ){
+            //da
         }
     }
 
@@ -243,17 +244,39 @@ public class Kiwi : MonoBehaviour
             anim.SetTrigger(deathHash);
             RestInPieces();
         }
+        else if( other.tag == "camo" ){
+            float time = Time.deltaTime / 2f;
+            invisFade += time;
+            if( invisFade <= 0.5f ){
+                lowerAlpha(time);
+            }
+        }
     }
 
-    // Add fade-away
+    void OnTriggerExit2D(Collider2D other){
+        if( other.tag == "camo" ){
+            restoreAlpha();
+        }
+    }
+
     private IEnumerator RestInPieces(){
         Destroy(gameObject);
         yield return null;
     }
 
-    private void checkHazards(){
-        //Debug.Log("entered check hazards");
-    }
+
+
+
+
+
+
+
+
+
+
+
+    // HELPER FUNCTIONS
+
 
     private bool checkMove(Vector3 A, bool vert, bool pos){
         // (A, B) fire raycast
@@ -285,5 +308,22 @@ public class Kiwi : MonoBehaviour
         Debug.Log("We hit " + hit.collider.name);
         if(hit.collider.tag == "obs") return false;
         return true;
+    }
+
+    private void checkHazards(){
+        //Debug.Log("entered check hazards");
+    }
+
+    private void lowerAlpha(float time){
+        Color tmp = mySpriteRenderer.color;
+        tmp.a -= time;
+        mySpriteRenderer.color = tmp;
+    }
+
+    private void restoreAlpha(){
+        Color tmp = mySpriteRenderer.color;
+        tmp.a = 1f;
+        mySpriteRenderer.color = tmp;
+        invisFade = 0f;
     }
 }
