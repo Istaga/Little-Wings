@@ -277,27 +277,20 @@ public class Kiwi : MonoBehaviour
 
     // HELPER FUNCTIONS
 
-
+    /*
+        Vector A is relative to current position, not some absolute location
+     */
     private bool checkMove(Vector3 A, bool vert, bool pos){
         // (A, B) fire raycast
         float x = 0;
         float y = 0;
         if(vert){
-            if(pos){
-                y = 5f;
-            }
-            else{
-                y = -5f;
-            }
+            y = pos ? 5f : -5f;
         }
         else {
-            if(pos){
-                x = 5f;
-            }
-            else{
-                x = -5f;
-            }
+            x = pos ? 5f : -5f;
         }
+        
         // check if raycast collided with tag == "obs"
         // A is transform.position
         // B is transform.position, direction, dist, where dist is fixed

@@ -275,3 +275,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
   mySpriteRenderer: {fileID: 0}
+  horiz: 0
+  pos: 0
