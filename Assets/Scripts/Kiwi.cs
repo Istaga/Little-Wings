@@ -76,28 +76,36 @@ public class Kiwi : MonoBehaviour
         }
 
         if (Mathf.Abs(vert) > 0){
-            if(vert > 0){
-                //frogSprite.transform.rotation = Quaternion.identity;
+            bool up = (Mathf.Sign(vert) == 1) ? true : false;
+            Debug.Log("up is " + up);
+            Vector3 target = new Vector3(0, Mathf.Sign(vert) *  2.6f, 0);
+            if(checkMove(target, true, up)){
+                StartCoroutine(Move(target));
             }
-            else {
-                //frogSprite.transform.rotation = Quaternion.Euler(new Vector3(0, 0, Mathf.Sign(vert) * 180));
-            }
-            StartCoroutine(Move(new Vector3(0, Mathf.Sign(vert) *  2.6f, 0)));
         }
         else if (Mathf.Abs(horiz) > 0){
-            //frogSprite.transform.rotation = Quaternion.Euler(new Vector3(0, 0, Mathf.Sign(horiz) * 180));
             if(mySpriteRenderer != null){
+                Vector3 target = new Vector3(Mathf.Sign(horiz) * 3.5f, 0, 0);
 
                 // TODO : IF FACING LEFT THEN TURN RIGHT INSTEAD OF MOVING RIGHT
+
                 if(horiz < 0){
-                    mySpriteRenderer.flipX = true;
+                    if(!mySpriteRenderer.flipX){
+                        mySpriteRenderer.flipX = true;
+                    }
+                    else {
+                        if(checkMove(target, false, false)){
+                            StartCoroutine(Move(target));
+                        }
+                    }
                 }
                 else {
                     mySpriteRenderer.flipX = false;
+                    if(checkMove(target, false, true)){
+                            StartCoroutine(Move(target));
+                    }
                 }
             }
-
-            StartCoroutine(Move(new Vector3(Mathf.Sign(horiz) * 3.5f, 0, 0)));
         }
     }
 
@@ -106,10 +114,6 @@ public class Kiwi : MonoBehaviour
         // calculate kiwi versus egg position
         Vector3 kiwiPos = kiwiSprite.transform.position;
         Vector3 beakPos = kiwiPos + new Vector3(2.53f, 0.5f, 0);
-
-        Debug.Log("Kiwi pos is " + kiwiPos);
-        Debug.Log("Beak pos is " + beakPos);
-
         Transform eggTransform = Instantiate(Egg, beakPos, Quaternion.Euler(0, 0, 75));
         eggTransform.GetComponent<Egg>().Setup(mySpriteRenderer.flipX);
         canMove = true;
@@ -202,7 +206,6 @@ public class Kiwi : MonoBehaviour
         canMove = false;
         isCoolingDown = true;
         anim.SetTrigger(walkHash);
-
         var start = kiwiSprite.transform.position;
         var end = start + v;
         var time = 0f;
@@ -222,8 +225,8 @@ public class Kiwi : MonoBehaviour
         isCoolingDown = false;
     }
 
+
     void OnTriggerEnter2D(Collider2D other){
-        Debug.Log("entered ontrigger2d");
         if( other.tag == "enemy" | (grounded && other.tag == "hole") ){
             canMove = false;
             anim.SetTrigger(deathHash);
@@ -249,6 +252,38 @@ public class Kiwi : MonoBehaviour
     }
 
     private void checkHazards(){
-        Debug.Log("entered check hazards");
+        //Debug.Log("entered check hazards");
+    }
+
+    private bool checkMove(Vector3 A, bool vert, bool pos){
+        // (A, B) fire raycast
+        float x = 0;
+        float y = 0;
+        if(vert){
+            if(pos){
+                y = 5f;
+            }
+            else{
+                y = -5f;
+            }
+        }
+        else {
+            if(pos){
+                x = 5f;
+            }
+            else{
+                x = -5f;
+            }
+        }
+        // check if raycast collided with tag == "obs"
+        // A is transform.position
+        // B is transform.position, direction, dist, where dist is fixed
+        Vector3 C = new Vector3(transform.position.x + A.x, transform.position.y + A.y, transform.position.z + A.z);
+        Vector3 B = new Vector3(C.x + x, C.y + A.y + y, C.z);
+        RaycastHit2D hit = Physics2D.Raycast(C, C-B, 5f);
+        Debug.DrawLine(C, B, Color.blue);
+        Debug.Log("We hit " + hit.collider.name);
+        if(hit.collider.tag == "obs") return false;
+        return true;
     }
 }
