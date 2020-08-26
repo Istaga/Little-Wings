@@ -12,6 +12,7 @@ public class Snek : MonoBehaviour
     public SpriteRenderer mySpriteRenderer;
     public bool horiz;
     public bool pos;
+
     
     private void Awake(){
         mySpriteRenderer = GetComponent<SpriteRenderer>();
@@ -37,12 +38,15 @@ public class Snek : MonoBehaviour
     private void Move(){
         // move in current direction unless we hit a block
         Vector3 nextMove = getNextMove();
-        if( !checkMove(nextMove) ){
-            SneakDiss(nextMove);
+        Debug.Log(checkMove(nextMove));
+        if( checkMove(nextMove) ){
+            Debug.Log(nextMove);
+            StartCoroutine(SneakDiss(nextMove));
         }
         else { 
             // We couldn't move, so we're going to turn around
             pos = !pos;
+            changeDirection();
         }
     }
 
@@ -52,10 +56,10 @@ public class Snek : MonoBehaviour
         Vector3 start = transform.position;
         Vector3 end = start + travel;
         var time = 0f;
-
+        Debug.Log("entered sneakdiss");
         while(time < 1f){
             transform.position = Vector3.Lerp(start, end, time);
-            time = time + Time.deltaTime / COOLDOWN;
+            time = time + Time.deltaTime / (COOLDOWN+0.5f);
             yield return null;
         }
 
@@ -106,9 +110,20 @@ public class Snek : MonoBehaviour
         Vector3 C = new Vector3(transform.position.x + A.x, transform.position.y + A.y, transform.position.z + A.z);
         Vector3 B = new Vector3(C.x + x, C.y + A.y + y, C.z);
         RaycastHit2D hit = Physics2D.Raycast(C, C-B, 2f);
-        Debug.DrawLine(C, B, Color.red);
-        Debug.Log("We hit " + hit.collider.name + " and tag " + hit.collider.tag);
+        //Debug.DrawLine(C, B, Color.red);
+        //Debug.Log("We hit " + hit.collider.name + " and tag " + hit.collider.tag);
         if( hit.collider.tag == "obs" || hit.collider.tag == "stoat" || hit.collider.tag == "hole") return false;
         return true;
+    }
+
+    private void changeDirection(){
+        float oldX = transform.localScale.x;
+        float oldY = transform.localScale.y;
+        if ( horiz ){
+            transform.localScale = new Vector3(-1f * oldX, oldY, 0);
+        }
+        else {
+            transform.localScale = new Vector3(oldX, -1f * oldY, 0);
+        }
     }
 }
