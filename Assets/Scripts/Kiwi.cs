@@ -126,6 +126,11 @@ public class Kiwi : MonoBehaviour
         Vector3 v = new Vector3(7f, 0, 0);
         Vector3 h = new Vector3(4f, 2.4f, 0);
         Vector3 down = new Vector3(3f, -2.4f, 0);
+        if( mySpriteRenderer.flipX == true ){
+            v = new Vector3(-7f, 0, 0);
+            h = new Vector3(-4f, 2.4f, 0);
+            down = new Vector3(-3f, -2.4f, 0);
+        }
 
         // Rotation occurs in the z component of transform.rotation
 
