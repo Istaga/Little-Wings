@@ -10,6 +10,8 @@ public class Snek : MonoBehaviour
     AnimatorStateInfo state;
     public Animator anim;
     public SpriteRenderer mySpriteRenderer;
+    public bool horiz;
+    public bool pos;
     
     private void Awake(){
         mySpriteRenderer = GetComponent<SpriteRenderer>();
@@ -52,9 +54,50 @@ public class Snek : MonoBehaviour
         isCoolingDown = false;
     }
 
+    // move in 1-tile increments until "obs" hit, then turn around
+
     void OnTriggerEnter2D(Collider2D other){
         if(other.tag == "egg"){
             Destroy(gameObject);
         }
+    }
+
+
+
+
+    // Helper FNs
+
+
+    private bool checkMove(Vector3 A, bool vert, bool pos){
+        // (A, B) fire raycast
+        float x = 0;
+        float y = 0;
+        float rad = 4f;
+        if(vert){
+            if(pos){
+                y = rad;
+            }
+            else{
+                y = -rad;
+            }
+        }
+        else {
+            if(pos){
+                x = rad;
+            }
+            else{
+                x = -rad;
+            }
+        }
+        // check if raycast collided with tag == "obs"
+        // A is transform.position
+        // B is transform.position, direction, dist, where dist is fixed
+        Vector3 C = new Vector3(transform.position.x + A.x, transform.position.y + A.y, transform.position.z + A.z);
+        Vector3 B = new Vector3(C.x + x, C.y + A.y + y, C.z);
+        RaycastHit2D hit = Physics2D.Raycast(C, C-B, 5f);
+        Debug.DrawLine(C, B, Color.blue);
+        Debug.Log("We hit " + hit.collider.name);
+        if(hit.collider.tag == "obs") return false;
+        return true;
     }
 }

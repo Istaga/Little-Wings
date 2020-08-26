@@ -32,4 +32,5 @@ public class Egg : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, x);
         time += Time.deltaTime;
     }
+
 }
