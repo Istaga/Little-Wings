@@ -55,7 +55,7 @@ public class Kiwi : MonoBehaviour
         // }
 
         if( isCoolingDown || state.nameHash != stillStateHash ){
-            Debug.Log(state.nameHash);
+            //Debug.Log(state.nameHash);
             return;
         }
 
@@ -78,7 +78,6 @@ public class Kiwi : MonoBehaviour
 
         if (Mathf.Abs(vert) > 0){
             bool up = (Mathf.Sign(vert) == 1) ? true : false;
-            Debug.Log("up is " + up);
             Vector3 target = new Vector3(0, Mathf.Sign(vert) *  2.6f, 0);
             if(checkMove(target, true, up)){
                 StartCoroutine(Move(target));
@@ -91,8 +90,8 @@ public class Kiwi : MonoBehaviour
                 // TODO : IF FACING LEFT THEN TURN RIGHT INSTEAD OF MOVING RIGHT
 
                 if(horiz < 0){
-                    if(!mySpriteRenderer.flipX){
-                        mySpriteRenderer.flipX = true;
+                    if( facingForward ){
+                        changeDirection();
                     }
                     else {
                         if(checkMove(target, false, false)){
@@ -101,7 +100,9 @@ public class Kiwi : MonoBehaviour
                     }
                 }
                 else {
-                    mySpriteRenderer.flipX = false;
+                    if( !facingForward ){
+                        changeDirection();
+                    }
                     if(checkMove(target, false, true)){
                             StartCoroutine(Move(target));
                     }
@@ -116,7 +117,7 @@ public class Kiwi : MonoBehaviour
         Vector3 kiwiPos = kiwiSprite.transform.position;
         Vector3 beakPos = kiwiPos + new Vector3(2.53f, 0.5f, 0);
         Transform eggTransform = Instantiate(Egg, beakPos, Quaternion.Euler(0, 0, 75));
-        eggTransform.GetComponent<Egg>().Setup(mySpriteRenderer.flipX);
+        eggTransform.GetComponent<Egg>().Setup( transform.localScale.x > 0);
         canMove = true;
     }
 
@@ -131,7 +132,7 @@ public class Kiwi : MonoBehaviour
         Vector3 v = new Vector3(7f, 0, 0);
         Vector3 h = new Vector3(4f, 2.4f, 0);
         Vector3 down = new Vector3(3f, -2.4f, 0);
-        if( mySpriteRenderer.flipX == true ){
+        if( !facingForward ){
             v = new Vector3(-7f, 0, 0);
             h = new Vector3(-4f, 2.4f, 0);
             down = new Vector3(-3f, -2.4f, 0);
@@ -231,7 +232,6 @@ public class Kiwi : MonoBehaviour
         if( other.tag == "enemy" | (grounded && other.tag == "hole") ){
             canMove = false;
             anim.SetTrigger(deathHash);
-            RestInPieces();
         }
         else if( other.tag == "Finish" ){
             //da
@@ -242,7 +242,6 @@ public class Kiwi : MonoBehaviour
         if( other.tag == "enemy" | (grounded && other.tag == "hole") ){
             canMove = false;
             anim.SetTrigger(deathHash);
-            RestInPieces();
         }
         else if( other.tag == "camo" ){
             float time = Time.deltaTime / 2f;
@@ -251,11 +250,41 @@ public class Kiwi : MonoBehaviour
                 lowerAlpha(time);
             }
         }
+
     }
 
     void OnTriggerExit2D(Collider2D other){
         if( other.tag == "camo" ){
             restoreAlpha();
+        }
+    }
+
+    private IEnumerator StartDeath(){
+        float time = 0f;
+        anim.speed = 8f;
+        Color tmp = mySpriteRenderer.color;
+        while( time < 0.12f ){
+            if( time < 0.03f ){
+                mySpriteRenderer.color = Color.clear;
+                Debug.Log("1");
+            }
+            else if ( time >= 0.03f && time < 0.06f ){
+                anim.speed = 4f;
+                mySpriteRenderer.color = tmp;
+                Debug.Log("2");
+            }
+            else if ( time >= 0.06f && time < 0.09f ){
+                anim.speed = 1f;
+                mySpriteRenderer.color = Color.clear;
+                Debug.Log("3");
+            }
+            else if ( time >= 0.09f && time < 0.12f ){
+                mySpriteRenderer.color = tmp;
+                Debug.Log("4");
+            }
+
+            time += Time.deltaTime / 2;
+            yield return null;
         }
     }
 
@@ -297,8 +326,8 @@ public class Kiwi : MonoBehaviour
         Vector3 C = new Vector3(transform.position.x + A.x, transform.position.y + A.y, transform.position.z + A.z);
         Vector3 B = new Vector3(C.x + x, C.y + A.y + y, C.z);
         RaycastHit2D hit = Physics2D.Raycast(C, C-B, 5f);
-        Debug.DrawLine(C, B, Color.blue);
-        Debug.Log("We hit " + hit.collider.name);
+        //Debug.DrawLine(C, B, Color.blue);
+        //Debug.Log("We hit " + hit.collider.name);
         if(hit.collider.tag == "obs") return false;
         return true;
     }
@@ -318,5 +347,12 @@ public class Kiwi : MonoBehaviour
         tmp.a = 1f;
         mySpriteRenderer.color = tmp;
         invisFade = 0f;
+    }
+
+    private void changeDirection(){
+        float oldX = transform.localScale.x;
+        float oldY = transform.localScale.y;
+        transform.localScale = new Vector3(-1f * oldX, oldY, 0);
+        facingForward = !facingForward;
     }
 }

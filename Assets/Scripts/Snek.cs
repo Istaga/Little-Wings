@@ -38,9 +38,7 @@ public class Snek : MonoBehaviour
     private void Move(){
         // move in current direction unless we hit a block
         Vector3 nextMove = getNextMove();
-        Debug.Log(checkMove(nextMove));
         if( checkMove(nextMove) ){
-            Debug.Log(nextMove);
             StartCoroutine(SneakDiss(nextMove));
         }
         else { 
@@ -56,7 +54,6 @@ public class Snek : MonoBehaviour
         Vector3 start = transform.position;
         Vector3 end = start + travel;
         var time = 0f;
-        Debug.Log("entered sneakdiss");
         while(time < 1f){
             transform.position = Vector3.Lerp(start, end, time);
             time = time + Time.deltaTime / (COOLDOWN+0.5f);
