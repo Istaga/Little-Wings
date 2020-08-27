@@ -266,21 +266,17 @@ public class Kiwi : MonoBehaviour
         while( time < 0.12f ){
             if( time < 0.03f ){
                 mySpriteRenderer.color = Color.clear;
-                Debug.Log("1");
             }
             else if ( time >= 0.03f && time < 0.06f ){
                 anim.speed = 4f;
                 mySpriteRenderer.color = tmp;
-                Debug.Log("2");
             }
             else if ( time >= 0.06f && time < 0.09f ){
                 anim.speed = 1f;
                 mySpriteRenderer.color = Color.clear;
-                Debug.Log("3");
             }
             else if ( time >= 0.09f && time < 0.12f ){
                 mySpriteRenderer.color = tmp;
-                Debug.Log("4");
             }
 
             time += Time.deltaTime / 2;
