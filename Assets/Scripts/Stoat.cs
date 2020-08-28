@@ -10,13 +10,14 @@ public class Stoat : MonoBehaviour
     private float COOLDOWN = 0.5f;
     int sprintHash = Animator.StringToHash("angry");
 
-    public Kiwi piwi;
+    public GameObject piwi;
     AnimatorStateInfo state;
     public Animator anim;
     public SpriteRenderer mySpriteRenderer;
     
     private void Awake(){
         mySpriteRenderer = GetComponent<SpriteRenderer>();
+        piwi = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Start()
@@ -27,6 +28,7 @@ public class Stoat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("stoat script");
         if(isCoolingDown){
             return;
         }
@@ -38,10 +40,10 @@ public class Stoat : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other){
-        if(other.tag == "egg"){
+        if(other.tag == "egg" || other.tag == "hole"){
             Destroy(gameObject);
         }
-        else if(other.tag == "kiwi"){
+        else if(other.tag == "Player"){
             piwiAlive = false;
             anim.SetBool("angry", false);
             Debug.Log("should be not angry in anim");

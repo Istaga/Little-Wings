@@ -81,7 +81,7 @@ public class Snek : MonoBehaviour
         // Determine direction based on bool
         float fwd = pos ? 1f : -1f;
 
-        if( horiz ){ // MOVING ALONG X-AXIS
+        if( horiz ){ // MOVING ALONG X-AXIS 
             travel = new Vector3(  fwd * 3.6f, 0, 0);
         }
         else { // MOVING ALONG Y-AXIS
