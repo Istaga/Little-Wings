@@ -40,7 +40,7 @@ public class Stoat : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other){
-        if(other.tag == "egg" || other.tag == "hole"){
+        if(other.tag == "egg" || (other.tag == "hole" && other.name == "pit1")){
             Destroy(gameObject);
         }
         else if(other.tag == "Player"){
@@ -61,13 +61,17 @@ public class Stoat : MonoBehaviour
         if (x - piwiX < 18f){
             // check kiwi above stoat
             if(piwiY > y){
-                if(Mathf.Abs(piwiY) - Mathf.Abs(y) < 2.7f){
+                Debug.Log("piwi above stoat");
+                float res = Mathf.Abs(piwiY) - Mathf.Abs(y);
+                if(Mathf.Abs(Mathf.Abs(piwiY - y)) < 2.6f){
+                    Debug.Log("Mathf.Abs(piwiY) - Mathf.Abs(y) < 2.6f is = " + res);
                     StartCoroutine(Charge());
                 }
             }
             // check kiwi below stoat
             else if(y > piwiY) {
-                if(Mathf.Abs(y - piwiY) < 2f){
+                Debug.Log("below above stoat");
+                if(Mathf.Abs(y - piwiY) < 1.9f){
                     StartCoroutine(Charge());
                 }
             }
@@ -99,32 +103,32 @@ public class Stoat : MonoBehaviour
             if (time < 0.02f){
                 time += Time.deltaTime / mul;
                 Debug.Log("Stage ranapden");
-                mul -= 0.03f;
+                mul -= 0.07f;
                 animMul = 2f;
             }
             else if (time >= 0.02f && time < 0.1f){
                 animMul = 0.5f;
                 time += Time.deltaTime / mul;
                 Debug.Log("Stage -1");
-                mul -= 0.01f;
+                mul -= 0.035f;
             }
             else if (time >= 0.1f && time < 0.3f){
                 animMul = 0.6f;
                 time += Time.deltaTime / mul;
                 Debug.Log("Stage 0");
-                mul -= 0.022f;
+                mul -= 0.035f;
             }
             else if (time >= 0.3f && time < 0.33f){
                 animMul = 0.65f;
                 time += Time.deltaTime / mul;
                 Debug.Log("Stage 1");
-                mul -= 0.033f;
+                mul -= 0.055f;
             }
             else if (time >= 0.33f && time < 0.7f){
                 animMul = 0.75f;
                 time += Time.deltaTime / mul;
                 Debug.Log("Stage 2");
-                mul -= 0.022f;
+                mul -= 0.02f;
             }
             else if (time >= 0.7f && time < 0.72f){
                 animMul = 0.9f;
