@@ -50,13 +50,14 @@ public class Snek : MonoBehaviour
 
 
     private IEnumerator SneakDiss(Vector3 travel){
+        //Debug.Log("travel is " + travel);
         isCoolingDown = true;
         Vector3 start = transform.position;
         Vector3 end = start + travel;
         var time = 0f;
         while(time < 1f){
             transform.position = Vector3.Lerp(start, end, time);
-            time = time + Time.deltaTime / (COOLDOWN+0.5f);
+            time = time + Time.deltaTime / (COOLDOWN+0.1f);
             yield return null;
         }
 
@@ -81,15 +82,14 @@ public class Snek : MonoBehaviour
         float fwd = pos ? 1f : -1f;
 
         if( horiz ){ // MOVING ALONG X-AXIS
-            travel = new Vector3(  fwd * 3.5f, 0, 0);
+            travel = new Vector3(  fwd * 3.6f, 0, 0);
         }
         else { // MOVING ALONG Y-AXIS
             travel = new Vector3( 0, fwd * 2.6f, 0);
         }
         return travel;
     }
-
-
+    // -11.5
 
 
     // Helper FNs
@@ -107,20 +107,24 @@ public class Snek : MonoBehaviour
         Vector3 C = new Vector3(transform.position.x + A.x, transform.position.y + A.y, transform.position.z + A.z);
         Vector3 B = new Vector3(C.x + x, C.y + A.y + y, C.z);
         RaycastHit2D hit = Physics2D.Raycast(C, C-B, 2f);
-        //Debug.DrawLine(C, B, Color.red);
+        Debug.DrawLine(C, B, Color.red);
         //Debug.Log("We hit " + hit.collider.name + " and tag " + hit.collider.tag);
-        if( hit.collider.tag == "obs" || hit.collider.tag == "stoat" || hit.collider.tag == "hole") return false;
+        if( hit.collider != null ){
+            if( hit.collider.tag == "nest" | hit.collider.tag == "obs" | hit.collider.tag == "hole"){
+                Debug.Log(hit.collider.tag);
+                return false;
+            }
+        }
         return true;
     }
+
 
     private void changeDirection(){
         float oldX = transform.localScale.x;
         float oldY = transform.localScale.y;
-        if ( horiz ){
-            transform.localScale = new Vector3(-1f * oldX, oldY, 0);
-        }
-        else {
-            transform.localScale = new Vector3(oldX, -1f * oldY, 0);
+        transform.localScale = new Vector3(oldX, -1f * oldY, 0);
+        if(gameObject.name == "snek (1)"){
+            //Debug.Log("position is " + transform.position);
         }
     }
 }

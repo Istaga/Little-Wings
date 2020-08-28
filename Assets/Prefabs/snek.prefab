@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4122313584947276664}
   - component: {fileID: 4122313584947276660}
   - component: {fileID: 5521198384698210040}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: snek
   m_TagString: enemy
   m_Icon: {fileID: 0}
