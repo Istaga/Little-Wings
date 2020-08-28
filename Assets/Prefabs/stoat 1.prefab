@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8659069527706313070}
   m_Layer: 0
   m_Name: stoat 1
-  m_TagString: enemy
+  m_TagString: stoat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

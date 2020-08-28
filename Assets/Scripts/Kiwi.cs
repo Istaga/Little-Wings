@@ -239,7 +239,7 @@ public class Kiwi : MonoBehaviour
     }
 
     void OnTriggerStay2D(Collider2D other){
-        if( other.tag == "enemy" | (grounded && other.tag == "hole") ){
+        if( other.tag == "enemy" | other.tag == "stoat" | (grounded && other.tag == "hole") ){
             canMove = false;
             anim.SetTrigger(deathHash);
         }

@@ -9,6 +9,7 @@ public class Stoat : MonoBehaviour
     private bool angry = false;
     private float COOLDOWN = 0.5f;
     int sprintHash = Animator.StringToHash("angry");
+    private Vector3 target;
 
     public GameObject piwi;
     AnimatorStateInfo state;
@@ -18,6 +19,7 @@ public class Stoat : MonoBehaviour
     private void Awake(){
         mySpriteRenderer = GetComponent<SpriteRenderer>();
         piwi = GameObject.FindGameObjectWithTag("Player");
+        target = checkMove();
     }
 
     void Start()
@@ -28,7 +30,6 @@ public class Stoat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("stoat script");
         if(isCoolingDown){
             return;
         }
@@ -58,19 +59,16 @@ public class Stoat : MonoBehaviour
         float y = transform.position.y;
 
         // check horizontal dist
-        if (x - piwiX < 18f){
+        if (x - piwiX < 18f && x - piwiX > 0 && piwiX > target.x){
             // check kiwi above stoat
             if(piwiY > y){
-                Debug.Log("piwi above stoat");
                 float res = Mathf.Abs(piwiY) - Mathf.Abs(y);
                 if(Mathf.Abs(Mathf.Abs(piwiY - y)) < 2.6f){
-                    Debug.Log("Mathf.Abs(piwiY) - Mathf.Abs(y) < 2.6f is = " + res);
                     StartCoroutine(Charge());
                 }
             }
             // check kiwi below stoat
             else if(y > piwiY) {
-                Debug.Log("below above stoat");
                 if(Mathf.Abs(y - piwiY) < 1.9f){
                     StartCoroutine(Charge());
                 }
@@ -82,8 +80,6 @@ public class Stoat : MonoBehaviour
     private IEnumerator Charge(){
         anim.SetBool("angry", true);
         angry = true;
-        float piwiX = piwi.transform.position.x;
-        Vector3 target = new Vector3(piwi.transform.position.x, transform.position.y, transform.position.z);
 
         var start = transform.position;
         var end = target;
@@ -98,48 +94,39 @@ public class Stoat : MonoBehaviour
 
         while(time < 1f){
             transform.position = Vector3.Lerp(start, end, time);
-            Debug.Log(time);
-
             if (time < 0.02f){
                 time += Time.deltaTime / mul;
-                Debug.Log("Stage ranapden");
                 mul -= 0.07f;
                 animMul = 2f;
             }
             else if (time >= 0.02f && time < 0.1f){
                 animMul = 0.5f;
                 time += Time.deltaTime / mul;
-                Debug.Log("Stage -1");
                 mul -= 0.035f;
             }
             else if (time >= 0.1f && time < 0.3f){
                 animMul = 0.6f;
                 time += Time.deltaTime / mul;
-                Debug.Log("Stage 0");
                 mul -= 0.035f;
             }
             else if (time >= 0.3f && time < 0.33f){
                 animMul = 0.65f;
                 time += Time.deltaTime / mul;
-                Debug.Log("Stage 1");
                 mul -= 0.055f;
             }
             else if (time >= 0.33f && time < 0.7f){
                 animMul = 0.75f;
                 time += Time.deltaTime / mul;
-                Debug.Log("Stage 2");
                 mul -= 0.02f;
             }
             else if (time >= 0.7f && time < 0.72f){
                 animMul = 0.9f;
                 time += Time.deltaTime / mul;
-                Debug.Log("Stage 3");
                 mul -= 0.005f;
             }
             else if (time >= 0.72f) {
                 animMul = 1.2f;
                 time += Time.deltaTime / mul;
-                Debug.Log("Stage 4");
             }
             anim.SetFloat("speedMul", animMul);
             if(!angry){
@@ -169,6 +156,32 @@ public class Stoat : MonoBehaviour
         mySpriteRenderer.flipX = false;
         angry = false;
         isCoolingDown = false;
+    }
+
+    // We only need to check for obs once since the stoat is static
+
+    private Vector3 checkMove(){
+
+        Vector3 kiwiPos = new Vector3(piwi.transform.position.x, transform.position.y, transform.position.z);
+        // need to shoot in front of stoat instead of through it
+        Vector3 stoatPos =  new Vector3(transform.position.x - 3f, transform.position.y, 0);
+
+
+        float maxDist = Mathf.Abs(kiwiPos.x - transform.position.x) - 6f;
+
+        RaycastHit2D hit = Physics2D.Raycast(stoatPos, Vector3.left, maxDist);
+        
+        if( hit.collider != null ){
+            Debug.DrawLine(stoatPos, kiwiPos, Color.blue, 5f);
+            Debug.Log("We hit " + hit.collider.name);
+            if(hit.collider.tag == "obs"){
+                float x = hit.point.x + 3f;
+                Debug.Log("hitpoint is " + x + ", new target location is " + new Vector3 (kiwiPos.x + x, stoatPos.y, stoatPos.z));
+                return new Vector3 (x, stoatPos.y, stoatPos.z);
+                // returns earlier than the full distance
+            }
+        }
+        return kiwiPos;
     }
 
 }
