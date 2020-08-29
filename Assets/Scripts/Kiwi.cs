@@ -72,7 +72,7 @@ public class Kiwi : MonoBehaviour
         var horiz = Input.GetAxis("Horizontal");
         var vert = Input.GetAxis("Vertical");
 
-        if( facingForward && Input.GetKeyUp("j") ){
+        if( Input.GetKeyUp("j") ){
             StartCoroutine(Jump());
             return;
         }
