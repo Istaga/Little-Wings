@@ -26,6 +26,7 @@ public class Kiwi : MonoBehaviour
     private bool facingForward = true;
     private bool grounded;
     private bool canMove;
+    private bool invis;
 
     private void Awake(){
         mySpriteRenderer = GetComponent<SpriteRenderer>();
@@ -236,7 +237,7 @@ public class Kiwi : MonoBehaviour
 
 
     void OnTriggerEnter2D(Collider2D other){
-        if( other.tag == "enemy" | (grounded && other.tag == "hole") ){
+        if( (other.tag == "enemy" && !invis) | (grounded && other.tag == "hole") ){
             canMove = false;
             anim.SetTrigger(deathHash);
         }
@@ -246,7 +247,7 @@ public class Kiwi : MonoBehaviour
     }
 
     void OnTriggerStay2D(Collider2D other){
-        if( other.tag == "enemy" | other.tag == "stoat" | (grounded && other.tag == "hole") ){
+        if( (other.tag == "enemy" && !invis)  | other.tag == "stoat" | (grounded && other.tag == "hole") ){
             canMove = false;
             anim.SetTrigger(deathHash);
         }
@@ -256,6 +257,9 @@ public class Kiwi : MonoBehaviour
             if( invisFade <= 0.5f ){
                 lowerAlpha(time);
             }
+            if( invisFade >= 0.5f ){
+                invis = true;
+            }
         }
 
     }
@@ -263,6 +267,7 @@ public class Kiwi : MonoBehaviour
     void OnTriggerExit2D(Collider2D other){
         if( other.tag == "camo" ){
             restoreAlpha();
+            invis = false;
         }
     }
 
