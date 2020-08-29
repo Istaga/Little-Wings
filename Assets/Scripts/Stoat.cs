@@ -89,8 +89,8 @@ public class Stoat : MonoBehaviour
         anim.SetFloat("speedMul", animMul);
         anim.speed = 1f;
 
-        Debug.Log("start pos is " + start);
-        Debug.Log("end pos is " + end);
+        //Debug.Log("start pos is " + start);
+        //Debug.Log("end pos is " + end);
 
         while(time < 1f){
             transform.position = Vector3.Lerp(start, end, time);
@@ -176,7 +176,7 @@ public class Stoat : MonoBehaviour
             Debug.Log("We hit " + hit.collider.name);
             if(hit.collider.tag == "obs"){
                 float x = hit.point.x + 3f;
-                Debug.Log("hitpoint is " + x + ", new target location is " + new Vector3 (kiwiPos.x + x, stoatPos.y, stoatPos.z));
+                //Debug.Log("hitpoint is " + x + ", new target location is " + new Vector3 (kiwiPos.x + x, stoatPos.y, stoatPos.z));
                 return new Vector3 (x, stoatPos.y, stoatPos.z);
                 // returns earlier than the full distance
             }

@@ -115,8 +115,15 @@ public class Kiwi : MonoBehaviour
         canMove = false;
         // calculate kiwi versus egg position
         Vector3 kiwiPos = kiwiSprite.transform.position;
-        Vector3 beakPos = kiwiPos + new Vector3(2.53f, 0.5f, 0);
-        Transform eggTransform = Instantiate(Egg, beakPos, Quaternion.Euler(0, 0, 75));
+        Transform eggTransform;
+        float dir = facingForward ? 1f : -1f;
+        Vector3 beakPos = kiwiPos + new Vector3(dir * 2.53f, 0.5f, 0);
+        if (facingForward){
+            eggTransform = Instantiate(Egg, beakPos, Quaternion.Euler(0, 0, 75));
+        }
+        else {
+            eggTransform = Instantiate(Egg, beakPos, Quaternion.Euler(0, 0, 190));
+        }
         eggTransform.GetComponent<Egg>().Setup( transform.localScale.x > 0);
         canMove = true;
     }
