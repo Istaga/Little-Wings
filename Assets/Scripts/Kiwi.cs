@@ -111,7 +111,6 @@ public class Kiwi : MonoBehaviour
     }
 
     public void VerticalMove(bool up){
-        Debug.Log("trying to d-pad");
         float pos = up ? 1f : -1f;
         Vector3 target = new Vector3(0, pos *  2.6f, 0);
         if(checkMove(target, true, up)){
