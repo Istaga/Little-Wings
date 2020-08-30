@@ -88,8 +88,6 @@ public class Kiwi : MonoBehaviour
             if(mySpriteRenderer != null){
                 Vector3 target = new Vector3(Mathf.Sign(horiz) * 3.5f, 0, 0);
 
-                // TODO : IF FACING LEFT THEN TURN RIGHT INSTEAD OF MOVING RIGHT
-
                 if(horiz < 0){
                     if( facingForward ){
                         changeDirection();
@@ -110,6 +108,42 @@ public class Kiwi : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void VerticalMove(bool up){
+        Debug.Log("trying to d-pad");
+        float pos = up ? 1f : -1f;
+        Vector3 target = new Vector3(0, pos *  2.6f, 0);
+        if(checkMove(target, true, up)){
+            StartCoroutine(Move(target));
+        }
+    }
+    
+    public void HorizontalMove(bool right){
+        float pos = right ? 1f : -1f;
+        Vector3 target = new Vector3(pos * 3.5f, 0, 0);
+        if(!right){
+            if( facingForward ){
+                changeDirection();
+            }
+            else {
+                if(checkMove(target, false, right)){
+                    StartCoroutine(Move(target));
+                }
+            }
+        }
+        else {
+            if( !facingForward ){
+                changeDirection();
+            }
+            if(checkMove(target, false, right)){
+                StartCoroutine(Move(target));
+            }
+        }        
+    }
+
+    public void Hello(){
+        Debug.Log("hi");
     }
 
     private void EggToss(){
@@ -247,7 +281,7 @@ public class Kiwi : MonoBehaviour
     }
 
     void OnTriggerStay2D(Collider2D other){
-        if( (other.tag == "enemy" && !invis)  | other.tag == "stoat" | (grounded && other.tag == "hole") ){
+        if( (other.tag == "enemy" && !invis) | other.tag == "stoat" | (grounded && other.tag == "hole") ){
             canMove = false;
             anim.SetTrigger(deathHash);
         }

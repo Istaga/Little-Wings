@@ -111,7 +111,7 @@ public class Snek : MonoBehaviour
         //Debug.Log("We hit " + hit.collider.name + " and tag " + hit.collider.tag);
         if( hit.collider != null ){
             if( hit.collider.tag == "nest" | hit.collider.tag == "obs" | hit.collider.tag == "hole" | hit.collider.tag == "stoat"){
-                Debug.Log(hit.collider.tag);
+                //Debug.Log(hit.collider.tag);
                 return false;
             }
         }
