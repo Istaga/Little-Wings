@@ -16,6 +16,7 @@ public class Kiwi : MonoBehaviour
     int eggHash = Animator.StringToHash("Egg");
     int jumpHash = Animator.StringToHash("Jump");
     int deathHash = Animator.StringToHash("Dead");
+    int blowHash = Animator.StringToHash("Blow");
     int stillStateHash = Animator.StringToHash("Base Layer.Still");
 
     private static float GLOBAL_TIME;
@@ -66,6 +67,11 @@ public class Kiwi : MonoBehaviour
 
         if( Input.GetKeyUp("x") ){
             anim.SetTrigger(eggHash);
+            return;
+        }
+
+        if( Input.GetKeyUp("b")){
+            anim.SetTrigger(blowHash);
             return;
         }
 
@@ -395,5 +401,42 @@ public class Kiwi : MonoBehaviour
         float oldY = transform.localScale.y;
         transform.localScale = new Vector3(-1f * oldX, oldY, 0);
         facingForward = !facingForward;
+    }
+
+
+
+    // Animation Helpers
+
+    private void StartBlow(){
+        float t = 0f;
+        anim.speed = 0.7f;
+        while( t < 0.3f ){
+            anim.speed -= 0.005f;
+            t += Time.deltaTime * 2f;
+        }
+
+    }
+
+    private void BreatheIn(){
+        float t = 0f;
+        while( t < 0.3f ){
+            anim.speed -= 0.012f;
+            t += Time.deltaTime * 1.5f;
+        }
+        Debug.Log("BreatheIn end speed is " + anim.speed);
+    }
+
+    private void BreatheOut(){
+        float t = 0f;
+        anim.speed = 0.4f;
+        while( t < 0.35f ){
+            anim.speed += 0.007f;
+            t += Time.deltaTime * 2f;
+        }
+        Debug.Log("BreatheOut end speed is " + anim.speed);
+    }
+
+    private void EndBlow(){
+        anim.speed = 1f;
     }
 }
