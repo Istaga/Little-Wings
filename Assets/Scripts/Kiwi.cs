@@ -13,6 +13,7 @@ public class Kiwi : MonoBehaviour
     public GameObject kiwiSprite;
     public Animator anim;
     AnimatorStateInfo state;
+    
 
     int walkHash = Animator.StringToHash("Walk");
     int eggHash = Animator.StringToHash("Egg");
@@ -21,6 +22,8 @@ public class Kiwi : MonoBehaviour
     int blowHash = Animator.StringToHash("Blow");
     int stillStateHash = Animator.StringToHash("Base Layer.Still");
 
+    private float yDist = 2.63f;
+    private float xDist = 3.5f;
     private static float GLOBAL_TIME;
     private static readonly float COOLDOWN = 0.5f;
     private static readonly float ACTION_COOLDOWN = 1f;
@@ -87,14 +90,14 @@ public class Kiwi : MonoBehaviour
 
         if (Mathf.Abs(vert) > 0){
             bool up = (Mathf.Sign(vert) == 1) ? true : false;
-            Vector3 target = new Vector3(0, Mathf.Sign(vert) *  2.6f, 0);
+            Vector3 target = new Vector3(0, Mathf.Sign(vert) *  yDist, 0);
             if(checkMove(target, true, up)){
                 StartCoroutine(Move(target));
             }
         }
         else if (Mathf.Abs(horiz) > 0){
             if(mySpriteRenderer != null){
-                Vector3 target = new Vector3(Mathf.Sign(horiz) * 3.5f, 0, 0);
+                Vector3 target = new Vector3(Mathf.Sign(horiz) * xDist, 0, 0);
 
                 if(horiz < 0){
                     if( facingForward ){
@@ -120,7 +123,7 @@ public class Kiwi : MonoBehaviour
 
     public void VerticalMove(bool up){
         float pos = up ? 1f : -1f;
-        Vector3 target = new Vector3(0, pos *  2.6f, 0);
+        Vector3 target = new Vector3(0, pos *  yDist, 0);
         if(checkMove(target, true, up)){
             StartCoroutine(Move(target));
         }
@@ -128,7 +131,7 @@ public class Kiwi : MonoBehaviour
     
     public void HorizontalMove(bool right){
         float pos = right ? 1f : -1f;
-        Vector3 target = new Vector3(pos * 3.5f, 0, 0);
+        Vector3 target = new Vector3(pos * xDist, 0, 0);
         if(!right){
             if( facingForward ){
                 changeDirection();
@@ -147,10 +150,6 @@ public class Kiwi : MonoBehaviour
                 StartCoroutine(Move(target));
             }
         }        
-    }
-
-    public void Hello(){
-        Debug.Log("hi");
     }
 
     private void EggToss(){
@@ -312,11 +311,14 @@ public class Kiwi : MonoBehaviour
             float time = Time.deltaTime / 2f;
             invisFade += time;
             if( invisFade <= 0.5f ){
-                lowerAlpha(time);
+                lowerAlpha(time, mySpriteRenderer);
             }
             if( invisFade >= 0.5f ){
                 invis = true;
             }
+        }
+        else if( other.tag == "sand" ){
+
         }
 
     }
@@ -326,6 +328,24 @@ public class Kiwi : MonoBehaviour
             restoreAlpha();
             invis = false;
         }
+    }
+
+
+    // This function doesn't work
+    // For some reason, you can't store an object hit by raycast in a variable
+    // To get around this problem, need to add a script to sand and trigger some
+    // variable to fade it away
+    private IEnumerator RemoveSand(GameObject obj){
+        float time = 0f;
+        SpriteRenderer sandRenderer = obj.GetComponent<SpriteRenderer>();
+        Color tmp = sandRenderer.color;
+        while( time < 0.5f ){
+            lowerAlpha(time, sandRenderer);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        Destroy(obj);
+        Debug.Log("hello.");
     }
 
     private IEnumerator StartDeath(){
@@ -365,11 +385,7 @@ public class Kiwi : MonoBehaviour
 
 
 
-
-
-
-
-    // HELPER FUNCTIONS
+    // CHECKING FUNCTIONS
 
     /*
         Vector A is relative to current position, not some absolute location
@@ -401,10 +417,56 @@ public class Kiwi : MonoBehaviour
         //Debug.Log("entered check hazards");
     }
 
-    private void lowerAlpha(float time){
-        Color tmp = mySpriteRenderer.color;
+    private void CheckSand(){
+        Vector3 A = transform.position;
+        float x = 0;
+        float y = 0;
+        Vector3 dir;
+        if(facingForward){
+            dir = Vector3.right;
+            dir += new Vector3(2f, 0, 0);
+        }
+        else {
+            dir = Vector3.left;
+            dir -= new Vector3(2f, 0, 0);
+        }
+
+        x = facingForward ? 5f : -5f;
+        
+        Vector3 C = new Vector3(transform.position.x + x, transform.position.y, transform.position.z);
+        //Vector3 B = new Vector3(C.x + x, C.y + A.y + y, C.z);
+        RaycastHit2D hit = Physics2D.Raycast(C, C-dir, 4f, 999, -1f);
+        Debug.DrawLine(C, dir, Color.blue, 2f);
+        //Debug.Log("We hit " + hit.collider.name);
+        if( hit != null ){
+            Debug.Log(hit.collider.tag);
+            if( hit.collider.tag == "sand" ){
+                //RemoveSand(blackMagic);
+                Debug.Log("1111111111!");
+                Destroy(hit.transform.gameObject);
+                Debug.Log("22222222222!");
+            }
+        }
+        return;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    // UTILITY FUNCTIONS
+
+    private void lowerAlpha(float time, SpriteRenderer s){
+        Color tmp = s.color;
         tmp.a -= time;
-        mySpriteRenderer.color = tmp;
+        s.color = tmp;
     }
 
     private void restoreAlpha(){
@@ -426,6 +488,7 @@ public class Kiwi : MonoBehaviour
     // Animation Helpers
 
     private void StartBlow(){
+
         float t = 0f;
         anim.speed = 0.7f;
         while( t < 0.3f ){
@@ -445,6 +508,7 @@ public class Kiwi : MonoBehaviour
     }
 
     private void BreatheOut(){
+        CheckSand();
         float t = 0f;
         anim.speed = 0.4f;
         while( t < 0.4f ){
