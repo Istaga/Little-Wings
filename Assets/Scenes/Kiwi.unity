@@ -1223,7 +1223,7 @@ PrefabInstance:
     - target: {fileID: 3036451471576840896, guid: ee2a4836ef8f33bbbb5e2feead3505b9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.38
+      value: 4.37
       objectReference: {fileID: 0}
     - target: {fileID: 3036451471576840896, guid: ee2a4836ef8f33bbbb5e2feead3505b9,
         type: 3}
@@ -1358,6 +1358,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Kiwi
       objectReference: {fileID: 0}
+    - target: {fileID: 7110713988451652651, guid: 1439b5967e7fe98899112d631823343f,
+        type: 3}
+      propertyPath: Gust
+      value: 
+      objectReference: {fileID: 7973802207452701011, guid: d5a44bd2536fcc8a2b24e348586a0203,
+        type: 3}
     - target: {fileID: 7110713988451652654, guid: 1439b5967e7fe98899112d631823343f,
         type: 3}
       propertyPath: m_LocalPosition.x

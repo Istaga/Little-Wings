@@ -5,6 +5,8 @@ using UnityEngine;
 public class Kiwi : MonoBehaviour
 {
     [SerializeField] private Transform Egg;
+    [SerializeField] private Transform Gust;
+
 
     private Rigidbody2D rb;
     public SpriteRenderer mySpriteRenderer;
@@ -165,6 +167,22 @@ public class Kiwi : MonoBehaviour
             eggTransform = Instantiate(Egg, beakPos, Quaternion.Euler(0, 0, 190));
         }
         eggTransform.GetComponent<Egg>().Setup( transform.localScale.x > 0);
+        canMove = true;
+    }
+
+    private void GustBlow(){
+        canMove = false;
+        Vector3 kiwiPos = kiwiSprite.transform.position;
+        Transform gustTransform;
+        float dir = facingForward ? 1f : -1f;
+        Vector3 beakPos = kiwiPos + new Vector3(dir * 2.75f, -0.2f, 0);
+        if (facingForward){
+            gustTransform = Instantiate(Gust, beakPos, Quaternion.Euler(0, 0, 0));
+        }
+        else {
+            gustTransform = Instantiate(Gust, beakPos, Quaternion.Euler(0, 0, 0));
+        }
+        gustTransform.GetComponent<BlowFx>().Setup(facingForward);
         canMove = true;
     }
 
@@ -429,8 +447,8 @@ public class Kiwi : MonoBehaviour
     private void BreatheOut(){
         float t = 0f;
         anim.speed = 0.4f;
-        while( t < 0.35f ){
-            anim.speed += 0.007f;
+        while( t < 0.4f ){
+            anim.speed += 0.008f;
             t += Time.deltaTime * 2f;
         }
         Debug.Log("BreatheOut end speed is " + anim.speed);
