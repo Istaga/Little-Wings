@@ -23,7 +23,7 @@ public class Kiwi : MonoBehaviour
     int stillStateHash = Animator.StringToHash("Base Layer.Still");
 
     private float yDist = 2.7f;
-    private float xDist = 3.5f;
+    private float xDist = 3.55f;
     private static float GLOBAL_TIME;
     private static readonly float COOLDOWN = 0.5f;
     private static readonly float ACTION_COOLDOWN = 1f;
