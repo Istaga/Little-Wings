@@ -32,7 +32,7 @@ public class Kiwi : MonoBehaviour
     private bool isCoolingDown = false;
     private bool facingForward = true;
     private bool grounded;
-    private bool canMove;
+    public bool canMove;
     private bool invis;
 
     private void Awake(){
@@ -73,12 +73,12 @@ public class Kiwi : MonoBehaviour
         }
 
         if( Input.GetKeyUp("x") ){
-            anim.SetTrigger(eggHash);
+            CallEgg();
             return;
         }
 
         if( Input.GetKeyUp("b")){
-            anim.SetTrigger(blowHash);
+            CallBlow();
             return;
         }
 
@@ -86,8 +86,7 @@ public class Kiwi : MonoBehaviour
         var vert = Input.GetAxis("Vertical");
 
         if( Input.GetKeyUp("j") ){
-            StartCoroutine(Jump());
-            return;
+            CallJump();
         }
 
         if (Mathf.Abs(vert) > 0){
@@ -121,6 +120,21 @@ public class Kiwi : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void CallEgg(){
+        anim.SetTrigger(eggHash);
+        return;
+    }
+
+    public void CallBlow(){
+        anim.SetTrigger(blowHash);
+        return;
+    }
+
+    public void CallJump(){
+        StartCoroutine(Jump());
+        return;
     }
 
     public void VerticalMove(bool up){
