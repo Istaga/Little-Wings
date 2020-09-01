@@ -406,7 +406,7 @@ public class Kiwi : MonoBehaviour
         // B is transform.position, direction, dist, where dist is fixed
         Vector3 C = new Vector3(transform.position.x + A.x, transform.position.y + A.y, transform.position.z + A.z);
         Vector3 B = new Vector3(C.x + x, C.y + A.y + y, C.z);
-        RaycastHit2D hit = Physics2D.Raycast(C, C-B, 5f);
+        RaycastHit2D hit = Physics2D.Raycast(C, C-B, 5f, 999, -1f);
         //Debug.DrawLine(C, B, Color.blue);
         //Debug.Log("We hit " + hit.collider.name);
         if(hit.collider.tag == "obs") return false;
@@ -431,12 +431,12 @@ public class Kiwi : MonoBehaviour
             dir -= new Vector3(2f, 0, 0);
         }
 
-        x = facingForward ? 5f : -5f;
+        x = facingForward ? 2f : -2f;
         
         Vector3 C = new Vector3(transform.position.x + x, transform.position.y, transform.position.z);
         //Vector3 B = new Vector3(C.x + x, C.y + A.y + y, C.z);
-        RaycastHit2D hit = Physics2D.Raycast(C, C-dir, 4f, 999, -1f);
-        Debug.DrawLine(C, dir, Color.blue, 2f);
+        RaycastHit2D hit = Physics2D.Raycast(C, dir, 1f, 999, -2f);
+        Debug.DrawLine(C, dir, Color.blue, 1f);
         //Debug.Log("We hit " + hit.collider.name);
         if( hit != null ){
             Debug.Log(hit.collider.tag);
