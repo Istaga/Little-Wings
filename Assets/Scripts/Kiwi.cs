@@ -7,6 +7,7 @@ public class Kiwi : MonoBehaviour
     [SerializeField] private Transform Egg;
     [SerializeField] private Transform Gust;
 
+    //SceneManager mgr;
 
     private Rigidbody2D rb;
     public SpriteRenderer mySpriteRenderer;
@@ -40,6 +41,7 @@ public class Kiwi : MonoBehaviour
     }
 
     private void Start(){
+        //mgr = new SceneManager();
         grounded = true;
         canMove = true;
         anim = GetComponent<Animator>();
@@ -297,8 +299,8 @@ public class Kiwi : MonoBehaviour
             canMove = false;
             anim.SetTrigger(deathHash);
         }
-        else if( other.tag == "Finish" ){
-            //da
+        else if( other.tag == "cherry" ){
+            Application.LoadLevel(Application.loadedLevel + 1);
         }
     }
 
