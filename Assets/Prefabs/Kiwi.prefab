@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Egg: {fileID: 1219911679462232463, guid: 078f67b913ebca20ab1d5c3040087211, type: 3}
-  Gust: {fileID: 0}
+  Gust: {fileID: 7973802207452701011, guid: d5a44bd2536fcc8a2b24e348586a0203, type: 3}
   mySpriteRenderer: {fileID: 0}
   kiwiSprite: {fileID: 7110713988451652650}
   anim: {fileID: 0}

@@ -9,6 +9,10 @@ TagManager:
   - hole
   - obs
   - camo
+  - cherry
+  - nest
+  - stoat
+  - sand
   layers:
   - Default
   - TransparentFX
