@@ -31,6 +31,7 @@ public class Kiwi : MonoBehaviour
     private float invisFade = 0f;
     private bool isCoolingDown = false;
     private bool facingForward = true;
+    private bool slowed = false;
     private bool grounded;
     public bool canMove;
     private bool invis;
@@ -181,7 +182,7 @@ public class Kiwi : MonoBehaviour
         else {
             eggTransform = Instantiate(Egg, beakPos, Quaternion.Euler(0, 0, 190));
         }
-        eggTransform.GetComponent<Egg>().Setup( transform.localScale.x > 0);
+        eggTransform.GetComponent<Egg>().Setup( transform.localScale.x > 0 );
         canMove = true;
     }
 
@@ -204,18 +205,20 @@ public class Kiwi : MonoBehaviour
 
     // TODO: Add slight rotation during jump
     public IEnumerator Jump(){
+
         canMove = false;
         isCoolingDown = true;
         grounded = false;
+        float jH = 0;
         anim.SetTrigger(jumpHash);
 
         Vector3 v = new Vector3(7f, 0, 0);
-        Vector3 h = new Vector3(4f, 2.4f, 0);
-        Vector3 down = new Vector3(3f, -2.4f, 0);
+        Vector3 h = new Vector3(4f, jH, 0);
+        Vector3 down = new Vector3(3f, -jH, 0);
         if( !facingForward ){
             v = new Vector3(-7f, 0, 0);
-            h = new Vector3(-4f, 2.4f, 0);
-            down = new Vector3(-3f, -2.4f, 0);
+            h = new Vector3(-4f, jH, 0);
+            down = new Vector3(-3f, -jH, 0);
         }
 
         // Rotation occurs in the z component of transform.rotation
@@ -334,7 +337,7 @@ public class Kiwi : MonoBehaviour
             }
         }
         else if( other.tag == "sand" ){
-
+            slowed = true;
         }
 
     }
@@ -343,6 +346,9 @@ public class Kiwi : MonoBehaviour
         if( other.tag == "camo" ){
             restoreAlpha();
             invis = false;
+        }
+        else if( other.tag == "sand" ){
+            slowed = !slowed;
         }
     }
 
