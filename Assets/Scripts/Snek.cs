@@ -57,7 +57,7 @@ public class Snek : MonoBehaviour
         var time = 0f;
         while(time < 1f){
             transform.position = Vector3.Lerp(start, end, time);
-            time = time + Time.deltaTime / (COOLDOWN+0.1f);
+            time = time + Time.deltaTime / (COOLDOWN+0.25f);
             yield return null;
         }
 
