@@ -5,10 +5,11 @@ using UnityEngine;
 public class Cherry : MonoBehaviour
 {
     private float time = 0f;
+    AudioSource src;
     // Start is called before the first frame update
     void Start()
     {
-        
+        src = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -25,5 +26,14 @@ public class Cherry : MonoBehaviour
 
 
         time += Time.deltaTime;
+    }
+
+    void OnTriggerEnter2D(Collider2D other){
+        if( other.tag == "Player" ){
+            src.Play();
+            src.Play();
+            src.Play();
+            Application.LoadLevel(Application.loadedLevel + 1);
+        }
     }
 }

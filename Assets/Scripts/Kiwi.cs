@@ -354,9 +354,9 @@ public class Kiwi : MonoBehaviour
             canMove = false;
             anim.SetTrigger(deathHash);
         }
-        else if( other.tag == "cherry" ){
-            Application.LoadLevel(Application.loadedLevel + 1);
-        }
+        // else if( other.tag == "cherry" ){
+        //     Application.LoadLevel(Application.loadedLevel + 1);
+        // }
     }
 
     void OnTriggerStay2D(Collider2D other){
