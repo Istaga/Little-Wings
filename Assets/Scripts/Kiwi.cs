@@ -78,6 +78,11 @@ public class Kiwi : MonoBehaviour
             return;
         }
 
+
+        if( Input.GetKeyUp("k")){
+            StartCoroutine(memejump());
+        }
+
         if( Input.GetKeyUp("b")){
             CallBlow();
             return;
@@ -202,6 +207,39 @@ public class Kiwi : MonoBehaviour
         canMove = true;
     }
 
+    private IEnumerator memejump(){
+        canMove = false;
+        isCoolingDown = true;
+        grounded = false;
+        float jH = 0;
+        anim.SetTrigger(jumpHash);
+
+        Vector3 v = new Vector3(xDist * 2, 0, 0);
+        Vector3 h = new Vector3(xDist, jH, 0);
+        Vector3 down = new Vector3(xDist, -jH, 0);
+        if( !facingForward ){
+            v = new Vector3(-xDist * 2, 0, 0);
+            h = new Vector3(-xDist, jH, 0);
+            down = new Vector3(-xDist, -jH, 0);
+        }
+
+        var start = transform.position;
+        var end = start + v;
+        var time = 0f;
+
+
+        while( time < 1f ){
+            rb.MovePosition(Vector3.Lerp(start, end, time));
+            time = time + Time.deltaTime / COOLDOWN;
+            yield return null;
+        }
+        transform.position = end; // Ensures consistent movement
+        anim.speed = 1f; // Reset to normal
+        grounded = true;
+        canMove = true;
+        isCoolingDown = false;
+    }
+
 
     // TODO: Add slight rotation during jump
     public IEnumerator Jump(){
@@ -212,13 +250,13 @@ public class Kiwi : MonoBehaviour
         float jH = 0;
         anim.SetTrigger(jumpHash);
 
-        Vector3 v = new Vector3(7f, 0, 0);
-        Vector3 h = new Vector3(4f, jH, 0);
-        Vector3 down = new Vector3(3f, -jH, 0);
+        Vector3 v = new Vector3(xDist * 2, 0, 0);
+        Vector3 h = new Vector3(xDist, jH, 0);
+        Vector3 down = new Vector3(xDist, -jH, 0);
         if( !facingForward ){
-            v = new Vector3(-7f, 0, 0);
-            h = new Vector3(-4f, jH, 0);
-            down = new Vector3(-3f, -jH, 0);
+            v = new Vector3(-xDist, 0, 0);
+            h = new Vector3(-xDist, jH, 0);
+            down = new Vector3(-xDist, -jH, 0);
         }
 
         // Rotation occurs in the z component of transform.rotation
