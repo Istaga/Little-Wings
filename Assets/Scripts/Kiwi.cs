@@ -75,11 +75,6 @@ public class Kiwi : MonoBehaviour
       return;
     }
 
-    if (grounded)
-    {
-      checkHazards();
-    }
-
     if (Input.GetKeyUp("x"))
     {
       CallEgg();
@@ -87,24 +82,20 @@ public class Kiwi : MonoBehaviour
     }
 
 
-    if (Input.GetKeyUp("k"))
-    {
-      StartCoroutine(memejump());
-    }
-
     if (Input.GetKeyUp("b"))
     {
       CallBlow();
       return;
     }
 
-    var horiz = Input.GetAxis("Horizontal");
-    var vert = Input.GetAxis("Vertical");
-
     if (Input.GetKeyUp("j"))
     {
       CallJump();
+      return;
     }
+
+    var horiz = Input.GetAxis("Horizontal");
+    var vert = Input.GetAxis("Vertical");
 
     if (Mathf.Abs(vert) > 0)
     {
@@ -164,8 +155,19 @@ public class Kiwi : MonoBehaviour
 
   public void CallJump()
   {
-    StartCoroutine(Jump());
-    return;
+    // if (!grounded)
+    // {
+    //   return;
+    // }
+    Vector3 jumpTarget = new Vector3(xDist, 0, 0);
+    Vector3 dir = facingForward ? Vector3.right : Vector3.left;
+    Vector3 sum = jumpTarget + kiwiSprite.transform.position;
+
+
+    if (checkMove(jumpTarget, dir))
+    {
+      StartCoroutine(Jump());
+    }
   }
 
   public void VerticalMove(bool up)
@@ -248,44 +250,7 @@ public class Kiwi : MonoBehaviour
     canMove = true;
   }
 
-  private IEnumerator memejump()
-  {
-    canMove = false;
-    isCoolingDown = true;
-    grounded = false;
-    float jH = 0;
-    anim.SetTrigger(jumpHash);
 
-    Vector3 v = new Vector3(xDist * 2, 0, 0);
-    Vector3 h = new Vector3(xDist, jH, 0);
-    Vector3 down = new Vector3(xDist, -jH, 0);
-    if (!facingForward)
-    {
-      v = new Vector3(-xDist * 2, 0, 0);
-      h = new Vector3(-xDist, jH, 0);
-      down = new Vector3(-xDist, -jH, 0);
-    }
-
-    var start = transform.position;
-    var end = start + v;
-    var time = 0f;
-
-
-    while (time < 1f)
-    {
-      rb.MovePosition(Vector3.Lerp(start, end, time));
-      time = time + Time.deltaTime / COOLDOWN;
-      yield return null;
-    }
-    transform.position = end; // Ensures consistent movement
-    anim.speed = 1f; // Reset to normal
-    grounded = true;
-    canMove = true;
-    isCoolingDown = false;
-  }
-
-
-  // TODO: Add slight rotation during jump
   public IEnumerator Jump()
   {
 
@@ -553,21 +518,40 @@ public class Kiwi : MonoBehaviour
       x = pos ? 5f : -5f;
     }
 
-    // check if raycast collided with tag == "obs"
-    // A is transform.position
-    // B is transform.position, direction, dist, where dist is fixed
     Vector3 C = new Vector3(transform.position.x + A.x, transform.position.y + A.y, transform.position.z + A.z);
     Vector3 B = new Vector3(C.x + x, C.y + A.y + y, C.z);
     RaycastHit2D hit = Physics2D.Raycast(C, C - B, 5f, 999, -1f);
-    //Debug.DrawLine(C, B, Color.blue);
-    //Debug.Log("We hit " + hit.collider.name);
-    if (hit.collider.tag == "obs") return false;
+    if (hit != null && hit.collider != null)
+    {
+      if (hit.collider.tag == "obs") return false;
+    }
     return true;
   }
 
-  private void checkHazards()
+  private bool checkMove(Vector3 A, Vector3 dir)
   {
-    //Debug.Log("entered check hazards");
+    float x = 0;
+    float y = 0;
+
+    float d = A.x;
+
+    float offset = facingForward ? 2f : -2f;
+
+    if (!facingForward)
+    {
+      d *= 1.5f;
+    }
+
+
+    Vector3 C = new Vector3(transform.position.x + offset, transform.position.y, transform.position.z);
+    Vector3 ligma = new Vector3(C.x + d, C.y, C.z);
+    RaycastHit2D hit = Physics2D.Raycast(C, dir, d, 999, -1f);
+    Debug.DrawLine(C, ligma, Color.blue, 2f);
+    if (hit != null && hit.collider != null)
+    {
+      if (hit.collider.tag == "obs") return false;
+    }
+    return true;
   }
 
   private void CheckSand()
@@ -598,7 +582,6 @@ public class Kiwi : MonoBehaviour
       Debug.Log(hit.collider.tag);
       if (hit.collider.tag == "sand")
       {
-        //RemoveSand(blackMagic);
         Destroy(hit.transform.gameObject);
       }
     }
