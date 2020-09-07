@@ -446,7 +446,6 @@ public class Kiwi : MonoBehaviour
     }
     else if (other.tag == "sand")
     {
-      Debug.Log("entered sand");
       slowed = true;
     }
 
@@ -482,7 +481,6 @@ public class Kiwi : MonoBehaviour
       yield return null;
     }
     Destroy(obj);
-    Debug.Log("hello.");
   }
 
   private IEnumerator StartDeath()
@@ -519,6 +517,7 @@ public class Kiwi : MonoBehaviour
   private IEnumerator RestInPieces()
   {
     Destroy(gameObject);
+    Application.LoadLevel(Application.loadedLevel);
     yield return null;
   }
 
@@ -588,16 +587,13 @@ public class Kiwi : MonoBehaviour
     //Vector3 B = new Vector3(C.x + x, C.y + A.y + y, C.z);
     RaycastHit2D hit = Physics2D.Raycast(C, dir, 1f, 999, -2f);
     Debug.DrawLine(C, dir, Color.blue, 1f);
-    //Debug.Log("We hit " + hit.collider.name);
     if (hit != null)
     {
       Debug.Log(hit.collider.tag);
       if (hit.collider.tag == "sand")
       {
         //RemoveSand(blackMagic);
-        Debug.Log("1111111111!");
         Destroy(hit.transform.gameObject);
-        Debug.Log("22222222222!");
       }
     }
     return;

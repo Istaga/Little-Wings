@@ -619,9 +619,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d281205c1dc5f4a268701edde385d06c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startRecordingButton: {fileID: 9151328213446073920, guid: 49cdf82801446f52585962b3b0ef0e87,
-    type: 3}
-  piwi: {fileID: 1184160554}
 --- !u!1001 &621415302
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2061,6 +2058,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7284280059311332560, guid: 4ee88157843a010be90f4a258cb5987c,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.0709852
+      objectReference: {fileID: 0}
+    - target: {fileID: 7284280059311332560, guid: 4ee88157843a010be90f4a258cb5987c,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.7526262
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ee88157843a010be90f4a258cb5987c, type: 3}
