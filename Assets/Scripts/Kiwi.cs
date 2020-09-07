@@ -164,7 +164,7 @@ public class Kiwi : MonoBehaviour
     Vector3 sum = jumpTarget + kiwiSprite.transform.position;
 
 
-    if (checkMove(jumpTarget, dir))
+    if (checkMove(dir))
     {
       StartCoroutine(Jump());
     }
@@ -528,14 +528,11 @@ public class Kiwi : MonoBehaviour
     return true;
   }
 
-  private bool checkMove(Vector3 A, Vector3 dir)
+  private bool checkMove(Vector3 dir)
   {
-    float x = 0;
-    float y = 0;
 
-    float d = A.x;
-
-    float offset = facingForward ? 2f : -2f;
+    float d = xDist * 1.1f;
+    float offset = facingForward ? 5f : -6f;
 
     if (!facingForward)
     {
@@ -545,10 +542,11 @@ public class Kiwi : MonoBehaviour
 
     Vector3 C = new Vector3(transform.position.x + offset, transform.position.y, transform.position.z);
     Vector3 ligma = new Vector3(C.x + d, C.y, C.z);
-    RaycastHit2D hit = Physics2D.Raycast(C, dir, d, 999, -1f);
+    RaycastHit2D hit = Physics2D.Raycast(C, dir, d, 999, -1f, 0);
     Debug.DrawLine(C, ligma, Color.blue, 2f);
     if (hit != null && hit.collider != null)
     {
+      Debug.Log(hit.collider.name);
       if (hit.collider.tag == "obs") return false;
     }
     return true;
