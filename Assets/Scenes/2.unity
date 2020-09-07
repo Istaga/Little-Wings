@@ -659,6 +659,11 @@ PrefabInstance:
       propertyPath: m_ShapeTexture
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3728411137223007684, guid: 4c78d7ed77bacd5369f24e25cb8cb7aa,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 3728411137223007685, guid: 4c78d7ed77bacd5369f24e25cb8cb7aa,
         type: 3}
       propertyPath: m_ShapeTexture
@@ -678,6 +683,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ShapeTexture
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8736689396939346723, guid: 4c78d7ed77bacd5369f24e25cb8cb7aa,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 8736689397799144007, guid: 4c78d7ed77bacd5369f24e25cb8cb7aa,
         type: 3}

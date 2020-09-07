@@ -520,7 +520,7 @@ public class Kiwi : MonoBehaviour
 
     Vector3 C = new Vector3(transform.position.x + A.x, transform.position.y + A.y, transform.position.z + A.z);
     Vector3 B = new Vector3(C.x + x, C.y + A.y + y, C.z);
-    RaycastHit2D hit = Physics2D.Raycast(C, C - B, 5f, 999, -1f);
+    RaycastHit2D hit = Physics2D.Raycast(C, C - B, 5f, 999, -3f, 1f);
     if (hit != null && hit.collider != null)
     {
       if (hit.collider.tag == "obs") return false;
@@ -530,23 +530,15 @@ public class Kiwi : MonoBehaviour
 
   private bool checkMove(Vector3 dir)
   {
-
-    float d = xDist * 1.1f;
-    float offset = facingForward ? 5f : -6f;
-
-    if (!facingForward)
-    {
-      d *= 1.5f;
-    }
-
+    float d = xDist;
+    float offset = facingForward ? 4f : -3.5f;
+    if (!facingForward) d *= 1.2f;
 
     Vector3 C = new Vector3(transform.position.x + offset, transform.position.y, transform.position.z);
     Vector3 ligma = new Vector3(C.x + d, C.y, C.z);
-    RaycastHit2D hit = Physics2D.Raycast(C, dir, d, 999, -1f, 0);
-    Debug.DrawLine(C, ligma, Color.blue, 2f);
+    RaycastHit2D hit = Physics2D.Raycast(C, dir, d, 999, -2.5f, -1.5f);
     if (hit != null && hit.collider != null)
     {
-      Debug.Log(hit.collider.name);
       if (hit.collider.tag == "obs") return false;
     }
     return true;
