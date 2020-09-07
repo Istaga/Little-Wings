@@ -24,7 +24,7 @@ public class Kiwi : MonoBehaviour
   int stillStateHash = Animator.StringToHash("Base Layer.Still");
 
 
-  private float slowFactor = 2f;
+  private float slowFactor = 2.5f;
   private float yDist = 2.7f;
   private float xDist = 3.55f;
   private static float GLOBAL_TIME;
@@ -394,10 +394,15 @@ public class Kiwi : MonoBehaviour
       {
         anim.speed = 1f;
       }
-      if (slowed)
+      if (slowed && time < 0.05f)
+      {
+        anim.speed = 2.5f;
+        time = time + Time.deltaTime / (COOLDOWN * slowFactor);
+      }
+      else if (slowed && time >= 0.05f)
       {
         time = time + Time.deltaTime / (COOLDOWN * slowFactor);
-        anim.speed = 0.5f;
+        anim.speed = 0.333333333f;
       }
       else
       {
@@ -406,6 +411,7 @@ public class Kiwi : MonoBehaviour
       yield return null;
     }
 
+    anim.speed = 1f;
     transform.position = end;
     canMove = true;
     isCoolingDown = false;
@@ -660,7 +666,6 @@ public class Kiwi : MonoBehaviour
       anim.speed -= 0.012f;
       t += Time.deltaTime * 1.5f;
     }
-    Debug.Log("BreatheIn end speed is " + anim.speed);
   }
 
   private void BreatheOut()
@@ -673,7 +678,6 @@ public class Kiwi : MonoBehaviour
       anim.speed += 0.008f;
       t += Time.deltaTime * 2f;
     }
-    Debug.Log("BreatheOut end speed is " + anim.speed);
   }
 
   private void EndBlow()
