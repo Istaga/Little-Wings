@@ -270,7 +270,6 @@ public class Kiwi : MonoBehaviour
       down = new Vector3(-xDist, -jH, 0);
     }
 
-    // Rotation occurs in the z component of transform.rotation
 
     // First determine the halfway point
     // Note: We're always jumping forward
