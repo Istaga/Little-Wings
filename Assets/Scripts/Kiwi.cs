@@ -355,7 +355,7 @@ public class Kiwi : MonoBehaviour
     while (time < 1f)
     {
       transform.position = Vector3.Lerp(start, end, time);
-      if (time >= 0.1f && time < 0.12f && !slowed)
+      if (time >= 0.05f && time < 0.12f && !slowed)
       {
         anim.speed = 1f;
       }

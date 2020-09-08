@@ -77,4 +77,10 @@ public class Bottle : MonoBehaviour
         transform.rotation = Quaternion.Euler(xRot, yRot, zRot);
         time += Time.deltaTime;
     }
+
+    void OnTriggerEnter2D(Collider2D other){
+        if ( other.tag == "Player" ){
+            Application.LoadLevel(1);
+        }
+    }
 }

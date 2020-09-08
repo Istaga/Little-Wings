@@ -118,7 +118,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7110713988451652651, guid: 1439b5967e7fe98899112d631823343f,
+          type: 3}
         m_MethodName: HorizontalMove
         m_Mode: 6
         m_Arguments:
