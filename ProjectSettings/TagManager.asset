@@ -13,6 +13,7 @@ TagManager:
   - nest
   - stoat
   - sand
+  - beachsand
   layers:
   - Default
   - TransparentFX

@@ -37,6 +37,7 @@ public class Kiwi : MonoBehaviour
   private bool grounded;
   public bool canMove;
   private bool invis;
+  private bool canHide = false;
 
   private void Awake()
   {
@@ -139,6 +140,31 @@ public class Kiwi : MonoBehaviour
         }
       }
     }
+  }
+
+  public void SendCommand(string com){
+    // if( canMove ){
+    //   switch( com ){
+    //     case "egg":
+    //       CallEgg();
+    //       break;
+    //     case "jump":
+    //       CallJump();
+    //       break;
+    //     case "hide":
+    //       CallHide();
+    //       break;
+    //     case "blow":
+    //       CallBlow();
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // }
+  }
+
+  public void CallHide(){
+    canHide = true;
   }
 
   public void CallEgg()
@@ -389,9 +415,6 @@ public class Kiwi : MonoBehaviour
       canMove = false;
       anim.SetTrigger(deathHash);
     }
-    // else if( other.tag == "cherry" ){
-    //     Application.LoadLevel(Application.loadedLevel + 1);
-    // }
   }
 
   void OnTriggerStay2D(Collider2D other)
@@ -401,7 +424,7 @@ public class Kiwi : MonoBehaviour
       canMove = false;
       anim.SetTrigger(deathHash);
     }
-    else if (other.tag == "camo")
+    else if (other.tag == "camo" && canHide)
     {
       float time = Time.deltaTime / 2f;
       invisFade += time;
@@ -427,6 +450,7 @@ public class Kiwi : MonoBehaviour
     {
       restoreAlpha();
       invis = false;
+      canHide = false;
     }
     else if (other.tag == "sand")
     {
