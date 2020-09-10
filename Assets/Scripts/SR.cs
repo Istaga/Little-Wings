@@ -145,6 +145,8 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
 					}
 
 					_voiceLevelImage.color = current >= 1f ? Color.green : Color.red;
+
+					// if greater than 1f, likely a blow;/
 				}
 			}
 			else
@@ -178,6 +180,7 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
 
 		private void StartRecordButtonOnClickHandler()
 		{
+			Time.timeScale = 0.2f;
 			_startRecordButton.interactable = false;
 			_stopRecordButton.interactable = true;
 			_detectThresholdButton.interactable = false;
@@ -188,6 +191,7 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
 
 		private void StopRecordButtonOnClickHandler()
 		{
+			Time.timeScale = 1f;
 			_stopRecordButton.interactable = false;
 			_startRecordButton.interactable = true;
 			_detectThresholdButton.interactable = true;
