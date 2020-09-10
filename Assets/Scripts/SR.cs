@@ -10,6 +10,9 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
 {
 	public class SR : MonoBehaviour
 	{
+		private GameObject piwi;
+		private float blowCount = 0f;
+		private bool blowing = false;
 		private GCSpeechRecognition _speechRecognition;
 
 		private Button _startRecordButton,
@@ -56,6 +59,7 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
 			_speechRecognition.BeginTalkigEvent += BeginTalkigEventHandler;
 			_speechRecognition.EndTalkigEvent += EndTalkigEventHandler;
 
+			piwi = GameObject.Find("Kiwi");
 			_startRecordButton = transform.Find("Canvas/Button_StartRecord").GetComponent<Button>();
 			_stopRecordButton = transform.Find("Canvas/Button_StopRecord").GetComponent<Button>();
 			_getOperationButton = transform.Find("Canvas/Button_GetOperation").GetComponent<Button>();
@@ -181,6 +185,7 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
 		private void StartRecordButtonOnClickHandler()
 		{
 			Time.timeScale = 0.2f;
+			blowing = true;
 			_startRecordButton.interactable = false;
 			_stopRecordButton.interactable = true;
 			_detectThresholdButton.interactable = false;
@@ -192,6 +197,7 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
 		private void StopRecordButtonOnClickHandler()
 		{
 			Time.timeScale = 1f;
+			blowing = false;
 			_stopRecordButton.interactable = false;
 			_startRecordButton.interactable = true;
 			_detectThresholdButton.interactable = true;
@@ -402,6 +408,8 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
 			}
 
 			_resultText.text += "\n" + recognitionResponse.results[0].alternatives[0].transcript;
+
+			piwi.SendCommand(recognitionResponse.results[0].alternatives[0].transcript);
 
 			var words = recognitionResponse.results[0].alternatives[0].words;
 

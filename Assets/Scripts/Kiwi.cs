@@ -143,24 +143,25 @@ public class Kiwi : MonoBehaviour
   }
 
   public void SendCommand(string com){
-    // if( canMove ){
-    //   switch( com ){
-    //     case "egg":
-    //       CallEgg();
-    //       break;
-    //     case "jump":
-    //       CallJump();
-    //       break;
-    //     case "hide":
-    //       CallHide();
-    //       break;
-    //     case "blow":
-    //       CallBlow();
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    // }
+    com = com.ToLower();
+    if( canMove ){
+      switch( com ){
+        case "egg":
+          CallEgg();
+          break;
+        case "jump":
+          CallJump();
+          break;
+        case "hide":
+          CallHide();
+          break;
+        case "blow":
+          CallBlow();
+          break;
+        default:
+          break;
+      }
+    }
   }
 
   public void CallHide(){
