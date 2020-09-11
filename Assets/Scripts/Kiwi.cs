@@ -191,7 +191,7 @@ public class Kiwi : MonoBehaviour
     Vector3 sum = jumpTarget + kiwiSprite.transform.position;
 
 
-    if (checkMove(dir))
+    if (checkMove(dir) && (!facingForward && transform.position.x > 14f))
     {
       StartCoroutine(Jump());
     }
