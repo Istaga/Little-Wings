@@ -199,41 +199,45 @@ public class Kiwi : MonoBehaviour
 
   public void VerticalMove(bool up)
   {
-    float pos = up ? 1f : -1f;
-    Vector3 target = new Vector3(0, pos * yDist, 0);
-    if (checkMove(target, true, up))
-    {
-      StartCoroutine(Move(target));
+    if( canMove ){
+      float pos = up ? 1f : -1f;
+      Vector3 target = new Vector3(0, pos * yDist, 0);
+      if (checkMove(target, true, up))
+      {
+        StartCoroutine(Move(target));
+      }
     }
   }
 
   public void HorizontalMove(bool right)
   {
-    float pos = right ? 1f : -1f;
-    Vector3 target = new Vector3(pos * xDist, 0, 0);
-    if (!right)
-    {
-      if (facingForward)
+    if( canMove ){
+      float pos = right ? 1f : -1f;
+      Vector3 target = new Vector3(pos * xDist, 0, 0);
+      if (!right)
       {
-        changeDirection();
+        if (facingForward)
+        {
+          changeDirection();
+        }
+        else
+        {
+          if (checkMove(target, false, right))
+          {
+            StartCoroutine(Move(target));
+          }
+        }
       }
       else
       {
+        if (!facingForward)
+        {
+          changeDirection();
+        }
         if (checkMove(target, false, right))
         {
           StartCoroutine(Move(target));
         }
-      }
-    }
-    else
-    {
-      if (!facingForward)
-      {
-        changeDirection();
-      }
-      if (checkMove(target, false, right))
-      {
-        StartCoroutine(Move(target));
       }
     }
   }
