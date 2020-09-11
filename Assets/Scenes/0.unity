@@ -2041,7 +2041,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 10
-  m_LinearDrag: 0.97
+  m_LinearDrag: 0.95
   m_AngularDrag: 0.1
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 7f9ae05925aa21dc9b64a0d6f7a37d03, type: 2}
@@ -2611,7 +2611,7 @@ PrefabInstance:
     - target: {fileID: 4911814811623704404, guid: 824cfb34d4144e42fa5a5e286753c188,
         type: 3}
       propertyPath: m_DynamicOccludee
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4911814811623704404, guid: 824cfb34d4144e42fa5a5e286753c188,
         type: 3}

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using System;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
@@ -41,6 +40,8 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
                _operationIdInputField;
 
     private Image _voiceLevelImage;
+
+    private bool _blowDetected = false;
 
     private void Start()
     {
@@ -197,7 +198,7 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
       _stopRecordButton.interactable = true;
       _detectThresholdButton.interactable = false;
       _resultText.text = string.Empty;
-
+      _blowDetected = false;
       _speechRecognition.StartRecord(_voiceDetectionToggle.isOn);
     }
 
@@ -209,6 +210,15 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
       _stopRecordButton.interactable = false;
       _startRecordButton.interactable = true;
       _detectThresholdButton.interactable = true;
+
+
+      if (blowCount / threshold > 0.2f) // if mic detects high input 30% of the time 
+      {
+        kiwiScript.SendCommand("blow");
+        _blowDetected = true;
+        blowCount = 0f;
+        threshold = 0f;
+      }
 
       _speechRecognition.StopRecord();
     }
@@ -287,13 +297,20 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
       if (clip == null || !_recognizeDirectlyToggle.isOn)
         return;
 
+      if (_blowDetected)
+      {
+        _blowDetected = false;
+        return;
+      }
+
       RecognitionConfig config = RecognitionConfig.GetDefault();
       config.languageCode = ((Enumerators.LanguageCode)_languageDropdown.value).Parse();
       config.speechContexts = new SpeechContext[]
       {
         new SpeechContext()
         {
-          phrases = _contextPhrasesInputField.text.Replace(" ", string.Empty).Split(',')
+          // phrases = _contextPhrasesInputField.text.Replace(" ", string.Empty).Split(',')
+          phrases = new string[] { "jump", "Jump", "egg", "Egg", "hide", "Hide" }
         }
       };
       config.audioChannelCount = clip.channels;
@@ -412,18 +429,14 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
       if (recognitionResponse == null || recognitionResponse.results.Length == 0)
       {
         _resultText.text = "\nWords not detected.";
-        if (blowCount / threshold > 0.3f)
-        {
-          kiwiScript.SendCommand("blow");
-        }
-        blowCount = 0f;
-        threshold = 0f;
         return;
       }
 
       _resultText.text += "\n" + recognitionResponse.results[0].alternatives[0].transcript;
 
-      kiwiScript.SendCommand(recognitionResponse.results[0].alternatives[0].transcript);
+      string incomeCommand = (recognitionResponse.results[0].alternatives[0].transcript.Trim(' '));
+
+      kiwiScript.SendCommand(incomeCommand);
 
       var words = recognitionResponse.results[0].alternatives[0].words;
 
