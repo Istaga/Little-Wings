@@ -397,6 +397,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1439b5967e7fe98899112d631823343f, type: 3}
+--- !u!1 &884471492 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7110713988451652650, guid: 1439b5967e7fe98899112d631823343f,
+    type: 3}
+  m_PrefabInstance: {fileID: 884471491}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &884471493 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7110713988451652651, guid: 1439b5967e7fe98899112d631823343f,
+    type: 3}
+  m_PrefabInstance: {fileID: 884471491}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 884471492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f94782890b7dfe0469e78d570f1ca104, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1268176512
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -619,6 +637,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 639250589383553577, guid: 6114b6fcc8c8e8ebf90c40522b8ba0c1,
+        type: 3}
+      propertyPath: piwi
+      value: 
+      objectReference: {fileID: 884471492}
+    - target: {fileID: 639250589383553577, guid: 6114b6fcc8c8e8ebf90c40522b8ba0c1,
+        type: 3}
+      propertyPath: other
+      value: 
+      objectReference: {fileID: 884471493}
+    - target: {fileID: 5333965664555517370, guid: 6114b6fcc8c8e8ebf90c40522b8ba0c1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6509727338633289022, guid: 6114b6fcc8c8e8ebf90c40522b8ba0c1,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -643,6 +676,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819554763103927939, guid: 6114b6fcc8c8e8ebf90c40522b8ba0c1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000030517578
+      objectReference: {fileID: 0}
+    - target: {fileID: 8338126445485861920, guid: 6114b6fcc8c8e8ebf90c40522b8ba0c1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 43.799805
       objectReference: {fileID: 0}
     - target: {fileID: 8767399835591018897, guid: 6114b6fcc8c8e8ebf90c40522b8ba0c1,
         type: 3}
