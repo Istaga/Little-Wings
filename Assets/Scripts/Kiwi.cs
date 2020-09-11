@@ -15,6 +15,8 @@ public class Kiwi : MonoBehaviour
   public Animator anim;
   AnimatorStateInfo state;
 
+  AudioSource src;
+
 
   int walkHash = Animator.StringToHash("Walk");
   int eggHash = Animator.StringToHash("Egg");
@@ -43,6 +45,7 @@ public class Kiwi : MonoBehaviour
   {
     mySpriteRenderer = GetComponent<SpriteRenderer>();
     rb = gameObject.GetComponent<Rigidbody2D>();
+    src = GetComponent<AudioSource>();
   }
 
   private void Start()
@@ -551,7 +554,10 @@ public class Kiwi : MonoBehaviour
     RaycastHit2D hit = Physics2D.Raycast(C, C - B, 5f, 999, -3f, 1f);
     if (hit != null && hit.collider != null)
     {
-      if (hit.collider.tag == "obs") return false;
+      if (hit.collider.tag == "obs"){
+        src.Play();
+        return false;
+      }
     }
     return true;
   }
@@ -567,7 +573,10 @@ public class Kiwi : MonoBehaviour
     RaycastHit2D hit = Physics2D.Raycast(C, dir, d, 999, -2.5f, -1.5f);
     if (hit != null && hit.collider != null)
     {
-      if (hit.collider.tag == "obs") return false;
+      if (hit.collider.tag == "obs"){
+        src.Play();
+        return false;
+      }
     }
     return true;
   }
