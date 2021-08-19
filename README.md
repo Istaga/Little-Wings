@@ -7,9 +7,9 @@ This version you see on Git is before I switched to Unity's source control syste
 
 #### Images
 
-![The first level](https://imgur.com/8Dt16e1)
+![The first level](https://i.imgur.com/8Dt16e1.png)
 
-![Using the hide command](https://imgur.com/J2W4hfq)
+![Using the hide command](https://i.imgur.com/R809zce.jpg)
 
-![A leap of faith](https://imgur.com/R809zce)
+![A leap of faith](https://i.imgur.com/R809zce.jpg)
 
